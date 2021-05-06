@@ -7,6 +7,7 @@ local execute = vim.api.nvim_command
 
 -- Configure leader
 vim.g.mapleader = '\\'
+vim.g.maplocalleader = '\\'
 
 -- Add preferred defaults
 require('settings')
@@ -18,3 +19,6 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 vim.cmd [[packadd packer.nvim]]
 vim.cmd 'autocmd BufWritePost plugins.lua PackerCompile' -- Auto compile when there are changes in plugins.lua
+
+-- Core key mappings
+require('corekeymaps')
