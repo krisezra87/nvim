@@ -22,3 +22,8 @@ vim.cmd 'autocmd BufWritePost plugins.lua PackerCompile' -- Auto compile when th
 
 -- Core key mappings
 require('corekeymaps')
+
+-- Include plugins
+require('plugins')
+
+require('config.colorscheme') -- colorscheme additional setup
