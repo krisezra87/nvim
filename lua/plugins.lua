@@ -8,4 +8,52 @@ return require('packer').startup(function()
     use {'junegunn/fzf',dir = '~/.fzf',run = './install --all'}
     use {'junegunn/fzf.vim'}
 
+    -- Core functionality
+    use {'markonm/traces.vim'}
+    use {'tomtom/tcomment_vim'}
+    use {'tpope/vim-surround'}
+    use {'chaoren/vim-wordmotion'}
+    use {'unblevable/quick-scope'}
+    use {'wellle/targets.vim'}
+    -- Make indentations vim objects
+    use {'michaeljsmith/vim-indent-object'}
+    use {'tommcdo/vim-lion'}
+    use {'airblade/vim-rooter'}
+    -- Show indentation line markers
+    use {'Yggdroot/indentLine'}
+    use {'lukas-reineke/indent-blankline.nvim'}
+    -- Context-aware pasting.  Paste with correct local indents
+    use {'sickill/vim-pasta'}
+    -- Identify whitespace and strip on save
+    use {'ntpeters/vim-better-whitespace'}
+
+    -- vimwiki
+    use {'vimwiki/vimwiki'}
+
+    -- Repeat enabled for . on plugin mappings (Surround.vim)
+    use {'tpope/vim-repeat'}
+
+    -- Better integration with tmux
+    use {'christoomey/vim-tmux-navigator'}
+
+    -- Better usage and compiling of LaTeX
+    -- This does syntax stuff, maybe use treesitter here
+    -- instead?
+    use {'lervag/vimtex'}
+
+    -- use {'SirVer/ultisnips', on = [] }
+    -- use {'honza/vim-snippets'}
+    -- use {'puremourning/vimspector'}
+    -- use {'tools-life/taskwiki'}
+
+    -- use {'neoclide/coc.nvim'}, {'branch': 'release'}
+    -- use {'neoclide/vim-node-rpc'}
+    -- use {'majutsushi/tagbar'}
+    -- use {'tommcdo/vim-exchange'}
+    -- use {'mbbill/undotree'}
+    -- use {'djoshea/vim-matlab-fold'}
+
+    -- Show colors of hex codes
+    -- use {'chrisbra/Colorizer'}
+
 end)
