@@ -29,6 +29,8 @@ return require('packer').startup(function()
 
     -- vimwiki
     use {'vimwiki/vimwiki'}
+    -- Task Wiki Integration (Requires vimwiki)
+    use {'tools-life/taskwiki'}
 
     -- Repeat enabled for . on plugin mappings (Surround.vim)
     use {'tpope/vim-repeat'}
@@ -41,10 +43,12 @@ return require('packer').startup(function()
     -- instead?
     use {'lervag/vimtex'}
 
-    -- use {'SirVer/ultisnips', on = [] }
-    -- use {'honza/vim-snippets'}
+    -- use {'SirVer/ultisnips', opt = true, cmd = {'UltiSnips#ExpandSnippetOrJump','UltiSnipsEdit'}}
+    use {'SirVer/ultisnips'}
+    use {'honza/vim-snippets'}
+
+    -- Python debugger
     -- use {'puremourning/vimspector'}
-    -- use {'tools-life/taskwiki'}
 
     -- use {'neoclide/coc.nvim'}, {'branch': 'release'}
     -- use {'neoclide/vim-node-rpc'}
@@ -55,5 +59,4 @@ return require('packer').startup(function()
 
     -- Show colors of hex codes
     -- use {'chrisbra/Colorizer'}
-
 end)

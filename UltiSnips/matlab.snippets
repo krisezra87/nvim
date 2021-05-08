@@ -1,0 +1,19 @@
+snippet class "Create a new blank MATLAB Class" b
+classdef ${1:ClassName}
+
+	methods
+		function obj = ${1/(\w+).*/$1/}()
+		end
+	end
+
+end
+endsnippet
+
+snippet func "Create a new blank function"
+function ${1:FunctionName}($2)
+end
+endsnippet
+
+snippet todo "TODO comment" bw
+% TODO: ${1:TODO_STR} - kezra (`date '+%Y-%m-%d'`)
+endsnippet

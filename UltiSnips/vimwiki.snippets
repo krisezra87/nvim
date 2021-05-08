@@ -1,0 +1,13 @@
+snippet note "Create a new note template, just like md files"
+# ${1:`!v toupper(expand("%:h:t"))`} Meeting Notes `!v strftime("%F")`
+Attend: KE, $2
+
+## Notes
+* $3
+
+## Action Items
+endsnippet
+
+snippet label "Add a label to a wiki index"
+[${1:`!v strftime("%F")`}](`!v strftime("%F")`.md) - $2\
+endsnippet
