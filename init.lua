@@ -27,3 +27,6 @@ require('corekeymaps')
 require('plugins')
 
 require('config.colorscheme') -- colorscheme additional setup
+
+-- Tree Sitter
+require('config.treesitter')

@@ -47,6 +47,9 @@ return require('packer').startup(function()
     use {'SirVer/ultisnips'}
     use {'honza/vim-snippets'}
 
+    -- Tree Sitter
+    use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+    use {'nvim-treesitter/playground'}
     -- Python debugger
     -- use {'puremourning/vimspector'}
 
