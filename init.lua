@@ -30,3 +30,8 @@ require('config.colorscheme') -- colorscheme additional setup
 
 -- Tree Sitter
 require('config.treesitter')
+
+-- More precise folding
+-- See https://github.com/nvim-treesitter/nvim-treesitter/issues/860
+-- and
+-- https://www.reddit.com/r/neovim/comments/k7ftqv/treesitter_folding_python/
