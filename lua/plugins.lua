@@ -53,6 +53,7 @@ return require('packer').startup(function()
     -- Python debugger
     -- use {'puremourning/vimspector'}
 
+    use {'neoclide/coc.nvim'}
     -- use {'neoclide/coc.nvim'}, {'branch': 'release'}
     -- use {'neoclide/vim-node-rpc'}
     -- use {'majutsushi/tagbar'}
