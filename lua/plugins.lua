@@ -50,17 +50,16 @@ return require('packer').startup(function()
     -- Tree Sitter
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
     use {'nvim-treesitter/playground'}
+
     -- Python debugger
     -- use {'puremourning/vimspector'}
 
     use {'neoclide/coc.nvim'}
-    -- use {'neoclide/coc.nvim'}, {'branch': 'release'}
-    -- use {'neoclide/vim-node-rpc'}
-    -- use {'majutsushi/tagbar'}
+    use {'majutsushi/tagbar'}
     -- use {'tommcdo/vim-exchange'}
     -- use {'mbbill/undotree'}
-    -- use {'djoshea/vim-matlab-fold'}
+    use {'djoshea/vim-matlab-fold'}
 
     -- Show colors of hex codes
-    -- use {'chrisbra/Colorizer'}
+    use {'chrisbra/Colorizer'}
 end)

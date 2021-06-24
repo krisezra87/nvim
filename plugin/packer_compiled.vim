@@ -72,6 +72,14 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  Colorizer = {
+    loaded = true,
+    path = "/home/kezra/.local/share/nvim/site/pack/packer/start/Colorizer"
+  },
+  ["coc.nvim"] = {
+    loaded = true,
+    path = "/home/kezra/.local/share/nvim/site/pack/packer/start/coc.nvim"
+  },
   ["elly.vim"] = {
     loaded = true,
     path = "/home/kezra/.local/share/nvim/site/pack/packer/start/elly.vim"
@@ -109,6 +117,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/kezra/.local/share/nvim/site/pack/packer/start/quick-scope"
   },
+  tagbar = {
+    loaded = true,
+    path = "/home/kezra/.local/share/nvim/site/pack/packer/start/tagbar"
+  },
   ["targets.vim"] = {
     loaded = true,
     path = "/home/kezra/.local/share/nvim/site/pack/packer/start/targets.vim"
@@ -124,6 +136,10 @@ _G.packer_plugins = {
   ["traces.vim"] = {
     loaded = true,
     path = "/home/kezra/.local/share/nvim/site/pack/packer/start/traces.vim"
+  },
+  ultisnips = {
+    loaded = true,
+    path = "/home/kezra/.local/share/nvim/site/pack/packer/start/ultisnips"
   },
   ["vim-better-whitespace"] = {
     loaded = true,
@@ -152,6 +168,10 @@ _G.packer_plugins = {
   ["vim-rooter"] = {
     loaded = true,
     path = "/home/kezra/.local/share/nvim/site/pack/packer/start/vim-rooter"
+  },
+  ["vim-snippets"] = {
+    loaded = true,
+    path = "/home/kezra/.local/share/nvim/site/pack/packer/start/vim-snippets"
   },
   ["vim-surround"] = {
     loaded = true,

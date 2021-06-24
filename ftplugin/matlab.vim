@@ -1,2 +1,2 @@
 setlocal fo+=croql
-setlocal comments=:%>,;%
+" setlocal comments=:%>,;%

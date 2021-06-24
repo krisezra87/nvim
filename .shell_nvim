@@ -1,0 +1,30 @@
+# Set default bash commands to be vi commands (e.g., esc for normal mode)
+set -o vi
+
+# Set the default editor to vim
+export EDITOR="nvim"
+
+# Aliases
+alias :EC="nvim ~/.config/nvim/init.lua"
+alias EC="nvim ~/.config/nvim/init.lua"
+
+# Functions
+function e {
+    if [ -z "$1" ]; then
+        # Do the current directory
+        if not hash fzf 2>/dev/null; then
+            # if there is no fzf, use vim instead
+            nvim .
+        else
+            fe $1
+        fi
+
+    else
+        nvim $1
+    fi
+}
+
+fe() (
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-nvim} "./${files[@]}"
+)
