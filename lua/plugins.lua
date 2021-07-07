@@ -20,7 +20,6 @@ return require('packer').startup(function()
     use {'tommcdo/vim-lion'}
     use {'airblade/vim-rooter'}
     -- Show indentation line markers
-    use {'Yggdroot/indentLine'}
     use {'lukas-reineke/indent-blankline.nvim'}
     -- Context-aware pasting.  Paste with correct local indents
     use {'sickill/vim-pasta'}
@@ -62,4 +61,7 @@ return require('packer').startup(function()
 
     -- Show colors of hex codes
     use {'chrisbra/Colorizer'}
+
+    -- Give nice popups for git things
+    use {'rhysd/git-messenger.vim'}
 end)
