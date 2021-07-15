@@ -80,6 +80,7 @@ utils.opt('o','wildmenu',true)
 utils.opt('o','wildmode','longest:full,full')
 
 -- Ignore case in searching unless capital letters are used
+utils.opt('o','ignorecase',true)
 utils.opt('o','smartcase',true)
 
 -- When searching, highlight matches as they are found
