@@ -31,6 +31,8 @@ require('config.colorscheme') -- colorscheme additional setup
 -- Tree Sitter
 require('config.treesitter')
 
+require('lsp')
+
 -- More precise folding
 -- See https://github.com/nvim-treesitter/nvim-treesitter/issues/860
 -- and

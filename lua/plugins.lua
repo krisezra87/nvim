@@ -53,7 +53,10 @@ return require('packer').startup(function()
     -- Python debugger
     -- use {'puremourning/vimspector'}
 
-    use {'neoclide/coc.nvim'}
+    use {'neovim/nvim-lspconfig'}
+    use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
+    use { 'ms-jpq/coq.artifacts', branch= 'artifacts'} -- 9000+ Snippets
+
     use {'majutsushi/tagbar'}
     -- use {'tommcdo/vim-exchange'}
     -- use {'mbbill/undotree'}
