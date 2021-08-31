@@ -127,3 +127,5 @@ utils.opt('o','scrolloff',4)
 
 -- Keep indents to be multiples of shiftwidth
 utils.opt('o','shiftround',true)
+
+utils.opt('o','tags','.git/tags')
