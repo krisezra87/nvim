@@ -64,4 +64,7 @@ return require('packer').startup(function()
 
     -- Give nice popups for git things
     use {'rhysd/git-messenger.vim'}
+
+    -- For markdown previews
+    use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install'}
 end)
