@@ -7,7 +7,7 @@ end
 
 vim.api.nvim_command('packadd packer.nvim')
 
-local no_errors = pcall(function()
+local no_errors, error_msg = pcall(function()
 
   local time
   local profile_info
@@ -25,7 +25,7 @@ local no_errors = pcall(function()
   else
     time = function(chunk, start) end
   end
-
+  
 local function save_profiles(threshold)
   local sorted_times = {}
   for chunk_name, time_taken in pairs(profile_info) do
@@ -97,6 +97,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/kezra/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim"
   },
+  ["markdown-preview.nvim"] = {
+    loaded = true,
+    path = "/home/kezra/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim"
+  },
   ["nvim-treesitter"] = {
     loaded = true,
     path = "/home/kezra/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
@@ -129,10 +133,6 @@ _G.packer_plugins = {
   tcomment_vim = {
     loaded = true,
     path = "/home/kezra/.local/share/nvim/site/pack/packer/start/tcomment_vim"
-  },
-  ["traces.vim"] = {
-    loaded = true,
-    path = "/home/kezra/.local/share/nvim/site/pack/packer/start/traces.vim"
   },
   ultisnips = {
     loaded = true,
@@ -202,5 +202,5 @@ if should_profile then save_profiles() end
 end)
 
 if not no_errors then
-  vim.api.nvim_command('echohl ErrorMsg | echom "Error in packer_compiled: ".v:exception | echom "Please check your config for correctness" | echohl None')
+  vim.api.nvim_command('echohl ErrorMsg | echom "Error in packer_compiled: '..error_msg..'" | echom "Please check your config for correctness" | echohl None')
 end
