@@ -5,6 +5,7 @@ return require('packer').startup(function()
 
     use {'ulwlu/elly.vim'}
     use {'shaunsingh/nord.nvim'}
+
     use {'tpope/vim-fugitive'}
     use {'junegunn/fzf',dir = '~/.fzf',run = './install --all'}
     use {'junegunn/fzf.vim'}
@@ -65,6 +66,9 @@ return require('packer').startup(function()
 
     -- Give nice popups for git things
     use {'rhysd/git-messenger.vim'}
+
+    -- Ripgrep integration
+    use {'jremmen/vim-ripgrep'}
 
     -- For markdown previews
     use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install'}
