@@ -36,3 +36,4 @@ utils.map('x','<','<gv')
 utils.map('x','>','>gv')
 
 cmd ':command E Explore'
+cmd ':command EC e $MYVIMRC'
