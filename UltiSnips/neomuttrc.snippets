@@ -1,0 +1,5 @@
+snippet macro "Create a new macro set" b
+macro index,pager g${2:${1/(\w).*/$1/}} "<change-folder>=${1:MAILBOX}<enter>" "go to $1"
+macro index,pager M$2 ";<save-message>=$1<enter>" "move mail to $1"
+macro index,pager C$2 ";<copy-message>=$1<enter>" "copy mail to $1"
+endsnippet
