@@ -4,6 +4,7 @@ return require('packer').startup(function()
     use {'wbthomason/packer.nvim', opt=true}
 
     use {'ulwlu/elly.vim'}
+    use {'shaunsingh/nord.nvim'}
     use {'tpope/vim-fugitive'}
     use {'junegunn/fzf',dir = '~/.fzf',run = './install --all'}
     use {'junegunn/fzf.vim'}
