@@ -59,7 +59,6 @@ return require('packer').startup(function()
     use {'majutsushi/tagbar'}
     -- use {'tommcdo/vim-exchange'}
     -- use {'mbbill/undotree'}
-    use {'djoshea/vim-matlab-fold'}
 
     -- Show colors of hex codes
     use {'chrisbra/Colorizer'}
