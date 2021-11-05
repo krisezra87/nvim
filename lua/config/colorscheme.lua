@@ -9,8 +9,8 @@ cmd 'highlight VertSplit ctermbg=NONE guibg=NONE'
 cmd 'highlight ColorColumn ctermbg=NONE guibg=NONE'
 cmd 'highlight EndOfBuffer ctermbg=NONE guibg=NONE'
 cmd 'highlight Comment cterm=italic'
-cmd 'highlight CursorLine ctermbg=NONE'
 cmd 'highlight CursorLineNR cterm=bold ctermbg=NONE'
 
 vim.g.nord_disable_background = true
 cmd 'silent! colorscheme nord'
+cmd 'highlight CursorLine ctermbg=NONE guibg=NONE'
