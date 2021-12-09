@@ -71,4 +71,7 @@ return require('packer').startup(function()
 
     -- For markdown previews
     use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install'}
+
+    -- For LSP
+    use {'neomake/neomake'}
 end)
