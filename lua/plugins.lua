@@ -53,7 +53,7 @@ return require('packer').startup(function()
     use {'nvim-treesitter/playground'}
 
     -- Python debugger
-    -- use {'puremourning/vimspector'}
+    use {'puremourning/vimspector'}
 
     use {'neoclide/coc.nvim'}
     use {'majutsushi/tagbar'}
