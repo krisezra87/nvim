@@ -1,7 +1,6 @@
-# Set default bash commands to be vi commands (e.g., esc for normal mode)
-set -o vi
+#!/bin/sh
 
-# Set the default editor to vim
+# Set the default editor to nvim
 export EDITOR="nvim"
 
 # Aliases
@@ -9,7 +8,7 @@ alias :EC="nvim ~/.config/nvim/init.lua"
 alias EC="nvim ~/.config/nvim/init.lua"
 alias ZC="nvim ~/.shell/zsh/zshrc"
 
-# Functions
+# Editing Functions
 function e {
     if [ -z "$1" ]; then
         # Do the current directory
@@ -29,3 +28,8 @@ fe() (
   IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && ${EDITOR:-nvim} "./${files[@]}"
 )
+
+# Note-taking functions (Note is defined in plugin/wikinote.vim)
+function work_note() {
+    nvim "+Note $*"
+}
