@@ -33,3 +33,7 @@ fe() {
 function work_note() {
     nvim "+Note $*"
 }
+
+alias notes='nvim "+VimwikiIndex"'
+alias wnotes='nvim "+VimwikiIndex 2"'
+# alias notes='nvim "+VimwikiUISelect"'
