@@ -15,9 +15,9 @@ let g:vimwiki_markdown_link_ext = 1
 " Prevent write on quit if there are mods
 let g:vimwiki_autowriteall = 0
 
-if !empty(glob(expand("~/work_notes/")))
+if !empty(glob(expand("~/.vimwiki/work_notes/")))
     let work_wiki = {}
-    let work_wiki.path = '~/work_notes/'
+    let work_wiki.path = '~/.vimwiki/work_notes/'
     let work_wiki.syntax = 'markdown'
     let work_wiki.ext = '.md'
     let g:vimwiki_list = [core_wiki, work_wiki]
