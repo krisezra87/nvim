@@ -31,7 +31,7 @@ return require('packer').startup(function()
     -- vimwiki
     use {'vimwiki/vimwiki'}
     -- Task Wiki Integration (Requires vimwiki)
-    use {'tools-life/taskwiki'}
+    -- use {'tools-life/taskwiki'}
 
     -- Repeat enabled for . on plugin mappings (Surround.vim)
     use {'tpope/vim-repeat'}
