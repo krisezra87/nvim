@@ -9,3 +9,17 @@ endsnippet
 snippet label "Add a label to a wiki index"
 [${1:`!v strftime("%F")`}](`!v strftime("%F")`.md) - $2\
 endsnippet
+
+# post_jump "if snip.tabstop==3: vim.command('Ztag')"
+snippet zet "Create a zettelkasten note" b
+# ${1:TITLE}
+
+Status: #${2:do_notes}
+Tags: $3
+
+${4:NOTE TEXT}
+
+## Links
+
+# References
+endsnippet
