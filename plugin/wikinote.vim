@@ -31,37 +31,56 @@ command! -nargs=* Note call NoteEdit(<f-args>)
 let g:zet_dir = '~/.vimwiki/zettelkasten/' "Note that trailing slash is necessary
 let g:zet_file_type = '.md' "Note that leading period is necessary
 
-func! NewZettel()
+func! NewZettel(...)
 
-  " build the file name
-  let l:fname = g:zet_dir . strftime("%F-%H%M") . g:zet_file_type
+    " build the file name
+    let l:fname = g:zet_dir . join(a:000) . g:zet_file_type
 
-  " edit the new file
-  exec "e " . l:fname
-  exec "normal ggOzet\<c-R>=UltiSnips#ExpandSnippetOrJump()\<CR>"
+    " edit the new file
+    exec "e " . l:fname
+    exec "normal ggOzet\<c-R>=UltiSnips#ExpandSnippetOrJump()\<CR>"
 endfunc
 
-command! Zet call NewZettel()
+command! -nargs=* Zet call NewZettel(<f-args>)
 
-func! LinkedZettel()
+func! LinkedLit(...)
+    " Create a new zettel from a literature note in a diary
 
-  " build the file name
-  let l:fname = g:zet_dir . strftime("%F-%H%M") . g:zet_file_type
+    " build the file name
+    let l:fname = g:zet_dir . join(a:000) . g:zet_file_type
 
-  " Capture the name of the current file and clear everything up to the
-  " vimwiki part since that is the base directory here
-  let l:refName = fnamemodify(expand("%:p"), ":s?.*\.vimwiki/??")
+    " Capture the name of the current file and clear everything up to the
+    " vimwiki part since that is the base directory here
+    let l:refName = fnamemodify(expand("%:p"), ":s?.*\.vimwiki/??")
 
-  " Capture the title of the zettel (or whatever)
-  exec "normal gg^wy$"
+    " Capture the title of the zettel (or whatever)
+    exec "normal gg^wy$"
 
-  " edit the new file
-  exec "e " . l:fname
-  exec "normal I[\<c-r>\"](../" . l:refName . ")"
-  exec "normal ggOzet\<c-R>=UltiSnips#ExpandSnippetOrJump()\<CR>"
+    " edit the new file and link the literature note as a reference
+    exec "e " . l:fname
+    exec "normal I[\<c-r>\"](../" . l:refName . ")"
+    exec "normal ggOzet\<c-R>=UltiSnips#ExpandSnippetOrJump()\<CR>"
 endfunc
 
-command! Lzet call LinkedZettel()
+command! -nargs=* LinkLit call LinkedLit(<f-args>)
+
+func! LinkedZet(...)
+    " Create a new zettel linked to existing zettel
+
+    " build the file name
+    let l:fname = g:zet_dir . join(a:000) . g:zet_file_type
+
+    " Capture the name of the current file
+    let l:refName = expand("%:t:r")
+
+    " edit the new file and create the link
+    exec "e " . l:fname
+    exec "normal ggOzettail\<c-R>=UltiSnips#ExpandSnippetOrJump()\<CR>"
+    exec "normal G?link\<CR>o[[" . l:refName . "]]\<c-]>"
+    exec "normal ggOzethead\<c-R>=UltiSnips#ExpandSnippetOrJump()\<CR>"
+endfunc
+
+command! -nargs=* LinkZet call LinkedZet(<f-args>)
 
 " List and insert tags using fzf
 " Search tags then search and open notes containing those tags

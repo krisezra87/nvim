@@ -12,12 +12,30 @@ endsnippet
 
 # post_jump "if snip.tabstop==3: vim.command('Ztag')"
 snippet zet "Create a zettelkasten note" b
-# ${1:TITLE}
+# `!p snip.rv = snip.basename`
 
-Status: #${2:do_notes}
-Tags: $3
+Date: `!v strftime("%F-%H%M")`
+Status: #${1:do_notes}
+Tags:
 
-${4:NOTE TEXT}
+${2:NOTE TEXT}
+
+## Links
+
+## References
+endsnippet
+
+snippet zethead "Create a zettelkasten beginning of note" b
+# `!p snip.rv = snip.basename`
+
+Date: `!v strftime("%F-%H%M")`
+Status: #${1:do_notes}
+Tags:
+
+${2:NOTE TEXT}
+endsnippet
+
+snippet zettail "Create a zettelkasten end of note" b
 
 ## Links
 

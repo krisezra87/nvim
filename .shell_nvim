@@ -37,3 +37,7 @@ function work_note() {
 alias notes='nvim "+VimwikiIndex"'
 alias wnotes='nvim "+VimwikiIndex 2"'
 # alias notes='nvim "+VimwikiUISelect"'
+
+function zet() {
+    nvim "+Zet $*"
+}
