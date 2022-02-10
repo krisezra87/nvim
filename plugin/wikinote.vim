@@ -82,5 +82,39 @@ endfunc
 
 command! -nargs=* LinkZet call LinkedZet(<f-args>)
 
-" List and insert tags using fzf
+" List and insert file links with fzf
+func! InsertLink(...)
+    exec "normal i[[" . join(a:000) . "]]\<c-]>"
+endfunc
+
+func! s:fzfzettels()
+    call fzf#run({
+                \ 'source': "rg --files -g '*.md' " . g:zet_dir . "\| sed 's/.*\\///;s/\.md//'",
+                \ 'sink': function('InsertLink'),
+                \ 'down': '30%'
+                \})
+endfunc
+
+command! ZettelSearch call s:fzfzettels()
+nnoremap <leader>zz :ZettelSearch<cr>
+
+func! InsertTag(...)
+    exec "normal i#" . join(a:000) . "\<c-]>"
+    " Delete weird spacing inserted and jump to end of line
+    exec "normal F#lx$"
+endfunc
+
+func! s:fzfzetteltags()
+    "rg -e '\s#[^, :]+' -g '*.md' -o --no-heading -I . | sed 's/#//' | sort | uniq
+
+    call fzf#run({
+                \ 'source': "rg -e '\\s#[^, :]+' -g '*.md' -o --no-heading -I " . g:zet_dir . "\| sed 's/#//' \| sort \| uniq",
+                \ 'sink': function('InsertTag'),
+                \ 'down': '30%'
+                \})
+endfunc
+
+command! ZettelTagSearch call s:fzfzetteltags()
+nnoremap <leader>zt :ZettelTagSearch<cr>
+
 " Search tags then search and open notes containing those tags

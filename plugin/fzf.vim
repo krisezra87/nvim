@@ -1,3 +1,5 @@
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
+
 imap <c-x><c-f> <plug>(fzf-complete-path)
 
 command! -bang -nargs=? -complete=dir Files
