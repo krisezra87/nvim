@@ -1,5 +1,5 @@
 " For rapidly generating work notes
-let g:note_dir = '~/.vimwiki/work_notes/'
+let g:note_dir = '~/work_notes/'
 let g:note_file_type = '.md' "Note that leading period is necessary
 
 func! NoteEdit(...)
