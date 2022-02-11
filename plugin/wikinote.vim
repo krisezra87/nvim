@@ -84,12 +84,12 @@ command! -nargs=* LinkZet call LinkedZet(<f-args>)
 
 " List and insert file links with fzf
 func! InsertLink(...)
-    exec "normal a[[" . join(a:000) . "\|" . substitute(join(a:000),'_',' ','g') . "]]\<c-]>"
+    exec "normal a[[" . substitute(join(a:000),' ','_','g') . "\|" . join(a:000) . "]]\<c-]>"
 endfunc
 
 func! s:fzfzettels()
     call fzf#run({
-                \ 'source': "rg --files -g '*.md' " . g:zet_dir . "\| sed 's/.*\\///;s/\.md//'",
+                \ 'source': "rg --files -g '*.md' " . g:zet_dir . "\| sed 's/.*\\///;s/\.md//;s/_/ /g'",
                 \ 'sink': function('InsertLink'),
                 \ 'down': '30%'
                 \})
