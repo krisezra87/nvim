@@ -34,7 +34,7 @@ let g:zet_file_type = '.md' "Note that leading period is necessary
 func! NewZettel(...)
 
     " build the file name
-    let l:fname = g:zet_dir . join(a:000) . g:zet_file_type
+    let l:fname = g:zet_dir . join(a:000,'_') . g:zet_file_type
 
     " edit the new file
     exec "e " . l:fname
@@ -84,7 +84,7 @@ command! -nargs=* LinkZet call LinkedZet(<f-args>)
 
 " List and insert file links with fzf
 func! InsertLink(...)
-    exec "normal i[[" . join(a:000) . "]]\<c-]>"
+    exec "normal a[[" . join(a:000) . "\|" . substitute(join(a:000),'_',' ','g') . "]]\<c-]>"
 endfunc
 
 func! s:fzfzettels()
@@ -99,7 +99,7 @@ command! ZettelSearch call s:fzfzettels()
 nnoremap <leader>zz :ZettelSearch<cr>
 
 func! InsertTag(...)
-    exec "normal i#" . join(a:000) . "\<c-]>"
+    exec "normal a#" . join(a:000) . "\<c-]>"
     " Delete weird spacing inserted and jump to end of line
     exec "normal F#lx$"
 endfunc
