@@ -28,3 +28,16 @@ let b:undo_ftplugin = "setlocal suffixesadd< suffixes< "
       \ . "| unlet! b:match_words"
 
 let &cpo = s:save_cpo
+
+call neomake#configure#automake('nrw',500)
+let g:neomake_matlab_mlint_maker = {
+    \ 'exe': '/usr/local/MATLAB/R2021b/bin/glnxa64/mlint',
+    \ 'args': ['-id'],
+    \ 'mapexpr': "neomake_bufname.':'.v:val",
+    \ 'errorformat':
+    \   '%f:L %l (C %c): %m,'.
+    \   '%f:L %l (C %c-%*[0-9]): %m,',
+    \ }
+"
+
+let g:neomake_matlab_enabled_makers = ['mlint']
