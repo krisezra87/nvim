@@ -82,12 +82,25 @@ endfunc
 
 command! -nargs=* LinkZet call LinkedZet(<f-args>)
 
-" List and insert file links with fzf
-func! InsertLink(...)
-    exec "normal a[[" . substitute(join(a:000),' ','_','g') . "\|" . join(a:000) . "]]\<c-]>"
+" Open a zettel
+func! s:fzfzettels()
+    call fzf#run({
+                \ 'source': "rg --files -g '*.md' " . g:zet_dir . "\| sed 's/.*\\///;s/\.md//;s/_/ /g'",
+                \ 'sink': function('OpenLink'),
+                \ 'down': '30%'
+                \})
 endfunc
 
-func! s:fzfzettels()
+func! OpenLink(...)
+    exec "e " . substitute(join(a:000),' ','_','g') . ".md"
+endfunc
+
+command! ZettelOpen call s:fzfzettels()
+nnoremap <leader>zz :ZettelOpen<cr>
+
+
+" List and insert file links with fzf
+func! s:fzfzettellink()
     call fzf#run({
                 \ 'source': "rg --files -g '*.md' " . g:zet_dir . "\| sed 's/.*\\///;s/\.md//;s/_/ /g'",
                 \ 'sink': function('InsertLink'),
@@ -95,8 +108,13 @@ func! s:fzfzettels()
                 \})
 endfunc
 
-command! ZettelSearch call s:fzfzettels()
-nnoremap <leader>zz :ZettelSearch<cr>
+func! InsertLink(...)
+    exec "normal a[[" . substitute(join(a:000),' ','_','g') . "\|" . join(a:000) . "]]\<c-]>"
+endfunc
+
+
+command! ZettelLink call s:fzfzettellink()
+nnoremap <leader>zl :ZettelLink<cr>
 
 func! InsertTag(...)
     exec "normal a#" . join(a:000) . "\<c-]>"
