@@ -47,7 +47,7 @@ func! LinkedLit(...)
     " Create a new zettel from a literature note in a diary
 
     " build the file name
-    let l:fname = g:zet_dir . join(a:000) . g:zet_file_type
+    let l:fname = g:zet_dir . substitute(join(a:000),' ','_','g') . g:zet_file_type
 
     " Capture the name of the current file and clear everything up to the
     " vimwiki part since that is the base directory here
@@ -68,7 +68,7 @@ func! LinkedZet(...)
     " Create a new zettel linked to existing zettel
 
     " build the file name
-    let l:fname = g:zet_dir . join(a:000) . g:zet_file_type
+    let l:fname = g:zet_dir . substitute(join(a:000),' ','_','g') . g:zet_file_type
 
     " Capture the name of the current file
     let l:refName = expand("%:t:r")
@@ -126,7 +126,7 @@ func! s:fzfzetteltags()
     "rg -e '\s#[^, :]+' -g '*.md' -o --no-heading -I . | sed 's/#//' | sort | uniq
 
     call fzf#run({
-                \ 'source': "rg -e '\\s#[^, :]+' -g '*.md' -o --no-heading -I " . g:zet_dir . "\| sed 's/#//' \| sort \| uniq",
+                \ 'source': "rg -e '#[^, :#\\n]+' -g '*.md' -o --no-heading -I " . g:zet_dir . "\| sed 's/#//' \| sort \| uniq",
                 \ 'sink': function('InsertTag'),
                 \ 'down': '30%'
                 \})
