@@ -82,6 +82,27 @@ endfunc
 
 command! -nargs=* LinkZet call LinkedZet(<f-args>)
 
+func! ContinueZet(...)
+    " Create a new zettel but put the link to it in the current zettel
+
+    " build the file name
+    let l:fname = g:zet_dir . substitute(join(a:000),' ','_','g') . g:zet_file_type
+
+    " Link it in this file
+    exec "normal G?##.links\<CR>}O[[" . substitute(join(a:000),' ','_','g') . "\|" . join(a:000) . "]]\<c-]>"
+
+    " edit the new file and create the link
+    exec "e " . l:fname
+    exec "normal ggOzet\<c-R>=UltiSnips#ExpandSnippetOrJump()\<CR>"
+    " If we wanted to insert a back link, this is the way below instead of the
+    " above line
+    " exec "normal ggOzettail\<c-R>=UltiSnips#ExpandSnippetOrJump()\<CR>"
+    " exec "normal G?link\<CR>o[[" . l:refName . "]]\<c-]>"
+    " exec "normal ggOzethead\<c-R>=UltiSnips#ExpandSnippetOrJump()\<CR>"
+endfunc
+
+command! -nargs=* ContZet call ContinueZet(<f-args>)
+
 " Open a zettel
 func! s:fzfzettels()
     call fzf#run({
