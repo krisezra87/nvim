@@ -57,7 +57,7 @@ func! LinkedLit(...)
     exec "normal gg^wy$"
 
     " edit the new file and link the literature note as a reference
-    exec "e " . l:fname
+    exec "vs " . l:fname
     exec "normal I[\<c-r>\"](../" . l:refName . ")"
     exec "normal ggOzet\<c-R>=UltiSnips#ExpandSnippetOrJump()\<CR>"
 endfunc
