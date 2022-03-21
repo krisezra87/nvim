@@ -92,7 +92,7 @@ func! s:fzfzettels()
 endfunc
 
 func! OpenLink(...)
-    exec "e " . substitute(join(a:000),' ','_','g') . ".md"
+    exec "e " . g:zet_dir . substitute(join(a:000),' ','_','g') . ".md"
 endfunc
 
 command! ZettelOpen call s:fzfzettels()
