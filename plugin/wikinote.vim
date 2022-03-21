@@ -156,3 +156,5 @@ command! ZettelTagSearch call s:fzfzetteltags()
 nnoremap <leader>zt :ZettelTagSearch<cr>
 
 " Search tags then search and open notes containing those tags
+
+command! ZI e ~/.vimwiki/zettelkasten/zettel_index.md
