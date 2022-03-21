@@ -117,9 +117,8 @@ command! ZettelLink call s:fzfzettellink()
 nnoremap <leader>zl :ZettelLink<cr>
 
 func! InsertTag(...)
-    exec "normal a#" . join(a:000) . "\<c-]>"
+    exec "normal a#" . join(a:000) . " \<c-]>"
     " Delete weird spacing inserted and jump to end of line
-    exec "normal F#lx$"
 endfunc
 
 func! s:fzfzetteltags()
