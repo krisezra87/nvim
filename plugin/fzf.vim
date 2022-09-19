@@ -1,4 +1,4 @@
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
+" let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 
 imap <c-x><c-f> <plug>(fzf-complete-path)
 
