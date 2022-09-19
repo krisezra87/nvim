@@ -74,4 +74,19 @@ return require('packer').startup(function()
 
     -- For LSP
     use {'neomake/neomake'}
+
+    -- For doing nice window sizing based on activity
+
+    use { "anuvyklack/windows.nvim",
+    requires = {
+        "anuvyklack/middleclass",
+        "anuvyklack/animation.nvim"
+    },
+    config = function()
+        vim.o.winwidth = 10
+        vim.o.winminwidth = 10
+        vim.o.equalalways = false
+        require('windows').setup()
+    end
+    }
 end)
