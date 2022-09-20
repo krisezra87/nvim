@@ -103,58 +103,6 @@ endfunc
 
 command! -nargs=* ContZet call ContinueZet(<f-args>)
 
-" Open a zettel
-func! s:fzfzettels()
-    call fzf#run({
-                \ 'source': "rg --files -g '*.md' " . g:zet_dir . "\| sed 's/.*\\///;s/\.md//;s/_/ /g'",
-                \ 'sink': function('OpenLink'),
-                \ 'down': '30%'
-                \})
-endfunc
-
-func! OpenLink(...)
-    exec "e " . g:zet_dir . substitute(join(a:000),' ','_','g') . ".md"
-endfunc
-
-command! ZettelOpen call s:fzfzettels()
-nnoremap <leader>zz :ZettelOpen<cr>
-
-
-" List and insert file links with fzf
-func! s:fzfzettellink()
-    call fzf#run({
-                \ 'source': "rg --files -g '*.md' " . g:zet_dir . "\| sed 's/.*\\///;s/\.md//;s/_/ /g'",
-                \ 'sink': function('InsertLink'),
-                \ 'down': '30%'
-                \})
-endfunc
-
-func! InsertLink(...)
-    exec "normal a[[" . substitute(join(a:000),' ','_','g') . "\|" . join(a:000) . "]]\<c-]>"
-endfunc
-
-
-command! ZettelLink call s:fzfzettellink()
-nnoremap <leader>zl :ZettelLink<cr>
-
-func! InsertTag(...)
-    exec "normal a#" . join(a:000) . " \<c-]>"
-    " Delete weird spacing inserted and jump to end of line
-endfunc
-
-func! s:fzfzetteltags()
-    "rg -e '\s#[^, :]+' -g '*.md' -o --no-heading -I . | sed 's/#//' | sort | uniq
-
-    call fzf#run({
-                \ 'source': "rg -e '#[^, :#\\n]+' -g '*.md' -o --no-heading -I " . g:zet_dir . "\| sed 's/#//' \| sort \| uniq",
-                \ 'sink': function('InsertTag'),
-                \ 'down': '30%'
-                \})
-endfunc
-
-command! ZettelTagSearch call s:fzfzetteltags()
-nnoremap <leader>zt :ZettelTagSearch<cr>
-
 " Search tags then search and open notes containing those tags
 
 command! ZI e ~/.vimwiki/zettelkasten/zettel_index.md
