@@ -6,6 +6,7 @@ export EDITOR="nvim"
 # Aliases
 alias :EC="nvim ~/.config/nvim/init.lua"
 alias EC="nvim ~/.config/nvim/init.lua"
+alias PC="nvim ~/.config/nvim/plugin/"
 alias ZC="nvim ~/.shell/zsh/zshrc"
 
 # Editing Functions
