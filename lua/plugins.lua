@@ -8,7 +8,8 @@ return require('packer').startup(function()
 
     use {'tpope/vim-fugitive'}
     use {'junegunn/fzf',dir = '~/.fzf',run = './install --all'}
-    use {'junegunn/fzf.vim'}
+    use {'ibhagwan/fzf-lua'}
+    -- use {'junegunn/fzf.vim'}
 
     -- Core functionality
     use {'markonm/traces.vim'}
