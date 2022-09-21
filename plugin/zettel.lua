@@ -17,6 +17,8 @@ _G.fzf_zettel_search = function(options)
     fzf_lua.fzf_exec([[fd -e ]] .. zet_ext .. [[ | sed 's/.*\///;s/\.md//;s/_/ /g']], options)
 end
 
+-- If ever I desire to get the preview window working
+-- look into fzf's flag --nth, the default separator is : (configurable), you can include/exclude any field from the fuzzy matches while still keeping full paths in the display so the previewer can work.
 vim.keymap.set('n','<leader>zz','<cmd> lua _G.fzf_zettel_search()<cr>')
 
 --Link a zettel: Will do nothing if prompt doesn't match
