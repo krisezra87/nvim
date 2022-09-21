@@ -53,8 +53,8 @@ _G.fzf_add_zettel_tag = function(options)
                 tag = selected[1]
             else
                 tag = fzf_lua.config.__resume_data.last_query
-                -- Put the search tag in double square brackets since it's unlikely I've typed it this way
-                tag = "[[" .. tag .. "]]"
+                -- Put the search tag in double square brackets and replaces spaces with underscores since it's unlikely I've typed it this way
+                tag = "[[" .. tag:gsub(" ","_") .. "]]"
             end
 
             vim.cmd('exec "normal a #' .. tag .. '"')
