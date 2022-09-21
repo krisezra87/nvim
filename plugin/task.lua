@@ -7,10 +7,15 @@ _G.fzf_project_replace = function()
     options.prompt = "Projects > "
     options.actions = {
         ['default'] = function(selected)
-            choice = selected[1]
+            project = nil
+            if #selected > 0 then
+                project = selected[1]
+            else
+                project = fzf_lua.config.__resume_data.last_query
+            end
             -- It seems to take us out of insert automagically, and doesn't
             -- even require a call to "exec" so just do the change
-            vim.cmd([[normal ciW]] .. choice)
+            vim.cmd([[normal ciW]] .. project)
         end
     }
     --Make the call to get the projects
