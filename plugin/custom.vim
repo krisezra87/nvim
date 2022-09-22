@@ -12,5 +12,6 @@ function! NeatFoldText()
 endfunction
 set foldtext=NeatFoldText()
 
-inoremap <expr> <c-x><c-m> fzf#vim#complete(
-    \ "rg --files -g '*.m' . ~/GIT/daf \| sed '1d;s:^..::;s/^[^+]*+/+/;s/\\/+/./g;s/^+//;s/\\.m$//;s/\\/@.\\+\\//./;s/\\//./g'")
+command! Up :update\<cr>
+" inoremap <expr> <c-x><c-m> fzf#vim#complete(
+"     \ "rg --files -g '*.m' . ~/GIT/daf \| sed '1d;s:^..::;s/^[^+]*+/+/;s/\\/+/./g;s/^+//;s/\\.m$//;s/\\/@.\\+\\//./;s/\\//./g'")
