@@ -51,12 +51,22 @@ return require('packer').startup(function()
 
     -- Tree Sitter
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
-    use {'nvim-treesitter/playground'}
+    -- use {'nvim-treesitter/playground'}
 
     -- Python debugger
     use {'puremourning/vimspector'}
 
-    use {'neoclide/coc.nvim'}
+    -- Nvim cmp for completion
+    use {'neovim/nvim-lspconfig'}
+    use { 'hrsh7th/cmp-nvim-lsp' }
+    use { 'hrsh7th/cmp-nvim-lsp-signature-help' }
+    use {'hrsh7th/cmp-buffer'}
+    use {'hrsh7th/cmp-path'}
+    use {'hrsh7th/cmp-cmdline'}
+    use {'hrsh7th/nvim-cmp'}
+    use {'quangnguyen30192/cmp-nvim-ultisnips'}
+
+    -- use {'neoclide/coc.nvim'}
     use {'majutsushi/tagbar'}
     -- use {'tommcdo/vim-exchange'}
     -- use {'mbbill/undotree'}
