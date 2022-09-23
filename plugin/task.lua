@@ -1,10 +1,11 @@
 -- Replace a project title with a new one for taskwarrior
 _G.fzf_project_replace = function()
     -- First get us in the right place in the taskwarrior task file
-    vim.cmd([[exec "normal gg/project\<cr>ztW"]])
+    vim.cmd([[exec "normal gg/description\<cr>zt?project\<cr>W"]])
     local fzf_lua = require'fzf-lua'
     options = {}
     options.prompt = "Projects > "
+    options.winopts = { height=.6, width=0.8, row = 0.5 }
     options.actions = {
         ['default'] = function(selected)
             project = nil
@@ -35,9 +36,10 @@ _G.fzf_add_tag = function()
     local fzf_lua = require'fzf-lua'
     options = {}
     options.prompt = "Tags > "
+    options.winopts = { height=.6, width=0.8, row = 0.5 }
     options.actions = {
         ['default'] = function(selected)
-            vim.cmd([[exec "normal gg/Tags\<cr>zz$"]])
+            vim.cmd([[exec "normal gg/Tags\<cr>$"]])
             tag = nil
             if #selected > 0 then
                 tag = selected[1]
