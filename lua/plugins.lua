@@ -53,9 +53,6 @@ return require('packer').startup(function()
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
     -- use {'nvim-treesitter/playground'}
 
-    -- Python debugger
-    use {'puremourning/vimspector'}
-
     -- Nvim cmp for completion
     use {'neovim/nvim-lspconfig'}
     use { 'hrsh7th/cmp-nvim-lsp' }
@@ -65,10 +62,19 @@ return require('packer').startup(function()
     use {'hrsh7th/cmp-cmdline'}
     use {'hrsh7th/nvim-cmp'}
     use {'quangnguyen30192/cmp-nvim-ultisnips'}
+    --
+    -- Debugging
+    use {'mfussenegger/nvim-dap'}
+    use {'rcarriga/nvim-dap-ui'}
+    use {'theHamsta/nvim-dap-virtual-text'}
+    use {'rcarriga/cmp-dap'}
+    use {'mfussenegger/nvim-dap-python'}
 
-    -- use {'neoclide/coc.nvim'}
+    -- Python debugger
+    -- use {'puremourning/vimspector'}
+
+
     use {'majutsushi/tagbar'}
-    -- use {'tommcdo/vim-exchange'}
     -- use {'mbbill/undotree'}
 
     -- Show colors of hex codes
