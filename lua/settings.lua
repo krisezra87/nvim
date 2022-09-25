@@ -129,3 +129,6 @@ utils.opt('o','scrolloff',4)
 utils.opt('o','shiftround',true)
 
 utils.opt('o','tags','.git/tags')
+
+-- For completion menus
+vim.opt.completeopt={"menu","menuone","noselect"}
