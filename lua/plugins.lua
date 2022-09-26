@@ -1,5 +1,4 @@
 return require('packer').startup(function()
-
     -- Manage packer itself
     use {'wbthomason/packer.nvim', opt=true}
 
@@ -51,18 +50,17 @@ return require('packer').startup(function()
 
     -- Tree Sitter
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
-    -- use {'nvim-treesitter/playground'}
 
-    -- Nvim cmp for completion
+    -- -- Nvim cmp for completion
     use {'neovim/nvim-lspconfig'}
-    use { 'hrsh7th/cmp-nvim-lsp' }
-    use { 'hrsh7th/cmp-nvim-lsp-signature-help' }
+    use {'hrsh7th/cmp-nvim-lsp'}
+    use {'hrsh7th/cmp-nvim-lsp-signature-help'}
     use {'hrsh7th/cmp-buffer'}
     use {'hrsh7th/cmp-path'}
     use {'hrsh7th/cmp-cmdline'}
     use {'hrsh7th/nvim-cmp'}
     use {'quangnguyen30192/cmp-nvim-ultisnips'}
-    --
+
     -- Debugging
     use {'mfussenegger/nvim-dap'}
     use {'rcarriga/nvim-dap-ui'}
@@ -70,10 +68,7 @@ return require('packer').startup(function()
     use {'rcarriga/cmp-dap'}
     use {'mfussenegger/nvim-dap-python'}
 
-    -- Python debugger
-    -- use {'puremourning/vimspector'}
-
-
+    -- Tags
     use {'majutsushi/tagbar'}
     -- use {'mbbill/undotree'}
 
