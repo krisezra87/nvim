@@ -1,5 +1,6 @@
 -- Define some global variables.  Is there a better way to do this to limit just to this file?
 zet_dir = "~/.vimwiki/zettelkasten/"
+diary_dir = "~/.vimwiki/diary/"
 zet_ext = "md"
 
 -- Enable searching through (and jumping to) existing zettels
@@ -65,5 +66,6 @@ _G.fzf_add_zettel_tag = function(options)
 end
 
 vim.keymap.set('n','<leader>zt','<cmd> lua _G.fzf_add_zettel_tag()<cr>')
+vim.keymap.set('n','<leader>d',[[<cmd> lua require('fzf-lua').files({ cwd = ']] .. diary_dir ..[['})<cr>]])
 
 -- Search tags then search and open notes containing those tags
