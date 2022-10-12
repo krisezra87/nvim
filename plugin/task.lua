@@ -39,7 +39,9 @@ _G.fzf_add_tag = function()
     options.winopts = { height=.6, width=0.8, row = 0.5 }
     options.actions = {
         ['default'] = function(selected)
-            vim.cmd([[exec "normal gg/Tags\<cr>$"]])
+            -- removed a `gg` before /tags because this is generally run after
+            -- project search and it messes up screen position
+            vim.cmd([[exec "normal /Tags\<cr>$"]])
             tag = nil
             if #selected > 0 then
                 tag = selected[1]
