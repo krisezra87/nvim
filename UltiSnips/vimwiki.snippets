@@ -11,14 +11,15 @@ snippet label "Add a label to a wiki index"
 endsnippet
 
 # post_jump "if snip.tabstop==3: vim.command('Ztag')"
+# for some reason, the below snip auto adds "ze" to the first field, so we will just remove it.
 snippet zet "Create a zettelkasten note" b
 # `!p snip.rv = snip.basename.replace("_"," ")`
 
 Date: `!v strftime("%F-%H%M")`
-Status: #${1:do_notes}
+Status: #zettel
 Tags:
 
-${2:NOTE TEXT}
+NOTE TEXT
 
 ## Links
 
