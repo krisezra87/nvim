@@ -6,8 +6,8 @@ local fn = vim.fn
 local execute = vim.api.nvim_command
 
 -- Configure leader
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader = '\\'
+vim.g.maplocalleader = '\\'
 
 -- Add preferred defaults
 require('settings')
