@@ -26,9 +26,7 @@ dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close()
 end
 
--- require('dap-python').setup('/usr/bin/python') -- This doesn't work for some reason
--- require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
-require('dap-python').setup('~/.conda/envs/drlnd/bin/python')
+require('dap-python').setup('~/.config/nvim/.debugpy/bin/python')
 -- Suggested mappings:
 -- nnoremap <silent> <leader>dn :lua require('dap-python').test_method()<CR>
 -- nnoremap <silent> <leader>df :lua require('dap-python').test_class()<CR>
