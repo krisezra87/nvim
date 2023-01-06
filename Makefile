@@ -1,8 +1,10 @@
-# Neovim
 CONFIG_PATH:=$(HOME)/.config/nvim
 VENV=.debugpy
 
-all: neovim
+all: github neovim
+
+github:
+	@[[ -d $(CONFIG_PATH) ]] || git clone git@github.com:krisezra87/nvim.git $(CONFIG_PATH)
 
 neovim:
 	@echo "Setting up neovim..."
@@ -10,6 +12,3 @@ neovim:
 	@pip install neovim
 	@python -m venv $(CONFIG_PATH)/$(VENV)
 	@$(CONFIG_PATH)/$(VENV)/bin/python -m pip install debugpy neovim
-
-test:
-	@echo $(CONFIG_PATH)/$(VENV)
