@@ -1,5 +1,4 @@
 #!/bin/sh
 
 python -m venv ~/.config/nvim/.debugpy
-source ~/.config/nvim/debugpy/bin/python
-pip install debugpy neovim
+~/.config/nvim/.debugpy/bin/python -m pip install debugpy neovim
