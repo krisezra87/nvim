@@ -63,6 +63,7 @@ return require('packer').startup(function()
 
     -- Debugging
     use {'mfussenegger/nvim-dap'}
+    use {'nvim-tree/nvim-web-devicons'}
     use {'rcarriga/nvim-dap-ui'}
     use {'theHamsta/nvim-dap-virtual-text'}
     use {'rcarriga/cmp-dap'}

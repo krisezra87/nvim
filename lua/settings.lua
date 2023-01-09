@@ -31,6 +31,9 @@ utils.opt('b','smartindent',true)
 -- Automatic line wrapping for comments only. See `:h fo-table`
 utils.opt('b','formatoptions','cq')
 
+-- Start with a more sane fold level
+utils.opt('w','foldlevel','2')
+
 -- Print the line number in front of each line
 utils.opt('w','number',true)
 
