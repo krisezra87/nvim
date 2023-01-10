@@ -36,9 +36,6 @@ return require('packer').startup(function()
     -- Repeat enabled for . on plugin mappings (Surround.vim)
     use {'tpope/vim-repeat'}
 
-    -- Better integration with tmux
-    -- use {'christoomey/vim-tmux-navigator'}
-
     -- Better usage and compiling of LaTeX
     -- This does syntax stuff, maybe use treesitter here
     -- instead?
