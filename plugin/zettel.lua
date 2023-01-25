@@ -21,6 +21,7 @@ end
 -- If ever I desire to get the preview window working
 -- look into fzf's flag --nth, the default separator is : (configurable), you can include/exclude any field from the fuzzy matches while still keeping full paths in the display so the previewer can work.
 vim.keymap.set('n','<leader>zz','<cmd> lua _G.fzf_zettel_search()<cr>')
+vim.keymap.set('n','<leader>z','<cmd> :ZI<cr>')
 
 --Link a zettel: Will do nothing if prompt doesn't match
 _G.fzf_zettel_link = function(options)
