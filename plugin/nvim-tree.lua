@@ -7,6 +7,8 @@
 -- OR setup with some options
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
+  respect_buf_cwd = true,
+  -- sync_root_with_cwd = true,
   view = {
     adaptive_size = false,
     mappings = {
@@ -23,6 +25,11 @@ require("nvim-tree").setup({
   },
   git = {
       ignore = false,
+  };
+  update_focused_file = {
+       enable = true,
+       update_cwd = true,
+       update_root = true,
   },
 })
 
