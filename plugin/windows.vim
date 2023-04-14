@@ -1,2 +1,2 @@
-nnoremap <C-Up> :WindowsMaximize<cr>
-nnoremap <C-Right> :WindowsToggleAutowidth<cr>
+nnoremap <leader>x :WindowsMaximize<cr>
+nnoremap <leader><Right> :WindowsToggleAutowidth<cr>
