@@ -101,6 +101,8 @@ utils.opt('o','linebreak',true)
 -- When wrapping text, wrapped lines keep the same indent as the preceding line
 utils.opt('o','breakindent',true)
 
+utils.opt('o','swapfile',false)
+-- vim.opt.swapfile = false
 -- Let's don't do swap or backup or whatever for now
 -- TODO swapfile is broken?
 -- utils.opt('w','noswapfile',true)
