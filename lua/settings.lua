@@ -32,7 +32,7 @@ utils.opt('b','smartindent',true)
 utils.opt('b','formatoptions','cq')
 
 -- Start with a more sane fold level
-utils.opt('w','foldlevel','2')
+utils.opt('w','foldlevel',2)
 
 -- Print the line number in front of each line
 utils.opt('w','number',true)
