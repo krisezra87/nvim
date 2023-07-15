@@ -3,6 +3,8 @@ VENV=.debugpy
 
 all: github arch virtualenv
 
+# Note: You gotta have a C compiler installed too (gcc, cc, clang, whatever)
+
 github:
 	@[[ -d $(CONFIG_PATH) ]] || git clone git@github.com:krisezra87/nvim.git $(CONFIG_PATH)
 
