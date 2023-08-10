@@ -1,7 +1,27 @@
+-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+require("neodev").setup({
+  -- add any options here, or leave empty to use the default settings
+  library = { plugins = { "nvim-dap-ui" }, types = true },
+})
+
+-- then setup your lsp server as usual
+local lspconfig = require('lspconfig')
+
+-- example to setup lua_ls and enable call snippets
+lspconfig.lua_ls.setup({
+  settings = {
+    Lua = {
+      completion = {
+        callSnippet = "Replace"
+      }
+    }
+  }
+})
+
 -- Set up lspconfig capabilities.
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-require'lspconfig'.pyright.setup{
+lspconfig.pyright.setup{
     capabilities = capabilities,
     on_attach = function() -- run this code on attach to lsp
         vim.keymap.set('n','K',vim.lsp.buf.hover,{buffer=0}) -- assign only for this buffer
@@ -14,7 +34,8 @@ require'lspconfig'.pyright.setup{
         -- Seems like there are a lot of these to explore or read in both vim.lsp.buff and also vim.diagnostic
         -- vim.keymap.set('n','td',vim.lsp.buf.type_definition,{buffer=0}) -- assign only for this buffer
 
-    end
+    end,
+    autostart = true
 }
 
 -- Set up nvim-cmp.

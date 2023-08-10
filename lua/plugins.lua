@@ -60,6 +60,7 @@ return require('packer').startup(function()
     use {'hrsh7th/cmp-cmdline'}
     use {'hrsh7th/nvim-cmp'}
     use {'quangnguyen30192/cmp-nvim-ultisnips'}
+    use {'folke/neodev.nvim'}
 
     -- Debugging
     use {'mfussenegger/nvim-dap'}
