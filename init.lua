@@ -39,3 +39,6 @@ require('config.treesitter')
 -- See https://github.com/nvim-treesitter/nvim-treesitter/issues/860
 -- and
 -- https://www.reddit.com/r/neovim/comments/k7ftqv/treesitter_folding_python/
+
+-- Put in restart configurations for some programs
+require('restart_configs')
