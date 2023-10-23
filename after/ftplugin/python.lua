@@ -19,5 +19,5 @@ lspconfig.pyright.setup{
 
     end,
     autostart = true,
-    root_dir = vim.fs.dirname(vim.fs.find({'pyproject.toml', 'setup.py'}, { upward = true })[1]),
+    -- root_dir = vim.fs.dirname(vim.fs.find({'pyproject.toml', 'setup.py'}, { upward = true })[1]),
 }

@@ -10,6 +10,8 @@ alias PC="nvim ~/.config/nvim/plugin/"
 alias ZC="nvim ~/.shell/zsh/zshrc"
 alias ZI="cd ~/.vimwiki/; nvim ~/.vimwiki/zettelkasten/zettel_index.md"
 alias zi="cd ~/.vimwiki/; nvim ~/.vimwiki/zettelkasten/zettel_index.md"
+alias sc="nvim ~/.config/sxhkd/sxhkdrc"
+alias dc="nvim ~/scripts/dwmbar"
 
 # Editing Functions
 function e {
