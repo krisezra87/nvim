@@ -63,6 +63,7 @@ return require('packer').startup(function()
     use {'folke/neodev.nvim'}
 
     -- Debugging
+    use {'nvim-neotest/nvim-nio'}
     use {'mfussenegger/nvim-dap'}
     use {'nvim-tree/nvim-web-devicons'}
     use {'rcarriga/nvim-dap-ui'}
