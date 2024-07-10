@@ -9,6 +9,7 @@ vim.keymap.set("n", "<Leader>P", ":lua require'dap'.set_breakpoint(vim.fn.input(
 vim.keymap.set("n", "<Leader>lp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
 vim.keymap.set("n", "<Leader>drpl", ":lua require'dap'.repl.open()<CR>")
 vim.keymap.set("n", "<Leader>dl", ":lua require'dap'.run_last()<CR>")
+vim.keymap.set("n", "<Leader>ds", ":lua require'dap'.disconnect({ terminateDebuggee = true })<CR>")
 
 require('nvim-dap-virtual-text').setup()
 require('dapui').setup()
