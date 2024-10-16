@@ -104,6 +104,7 @@ return require('packer').startup(function()
         require('windows').setup()
     end
     }
+    use { "nvim-neotest/nvim-nio" }
     use {
   'nvim-tree/nvim-tree.lua',
   requires = {
