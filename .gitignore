@@ -2,3 +2,6 @@
 *.swp
 plugin/packer_compiled.lua
 .debugpy/
+node_modules/
+package*
+tree-sitter-latex/
