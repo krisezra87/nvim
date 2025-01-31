@@ -10,7 +10,7 @@ github:
 
 arch:
 	@echo "Setting up neovim for arch..."
-	@sudo pacman -S --needed neovim flake8 python-pylint python-pylint-venv neovim
+	@sudo pacman -S --needed neovim flake8 python-pylint python-pylint-venv neovim lua-language-server npm
 
 ubuntu:
 	@echo "Setting up neovim for ubuntu..."

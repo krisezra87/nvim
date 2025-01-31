@@ -11,11 +11,6 @@ require("nvim-tree").setup({
   -- sync_root_with_cwd = true,
   view = {
     adaptive_size = false,
-    mappings = {
-      list = {
-        { key = "-", action = "dir_up" },
-      },
-    },
   },
   renderer = {
     group_empty = true,
