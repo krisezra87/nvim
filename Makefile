@@ -1,7 +1,7 @@
 CONFIG_PATH:=$(HOME)/.config/nvim
 VENV=.debugpy
 
-all: github arch virtualenv
+all: github arch
 
 # Note: You gotta have a C compiler installed too (gcc, cc, clang, whatever)
 
@@ -11,6 +11,7 @@ github:
 arch:
 	@echo "Setting up neovim for arch..."
 	@sudo pacman -S --needed neovim flake8 python-pylint python-pylint-venv neovim lua-language-server npm
+	@ python3 -m pip install pyright neovim debugpy
 
 ubuntu:
 	@echo "Setting up neovim for ubuntu..."
@@ -21,4 +22,4 @@ ubuntu:
 virtualenv:
 	@pip install neovim
 	@python3 -m venv $(CONFIG_PATH)/$(VENV)
-	@$(CONFIG_PATH)/$(VENV)/bin/python -m pip install debugpy neovim
+	@$(CONFIG_PATH)/$(VENV)/bin/python -m pip install debugpy neovim pyright
