@@ -65,7 +65,7 @@ return require('packer').startup(function()
     -- Debugging
     use {'nvim-neotest/nvim-nio'}
     use {'mfussenegger/nvim-dap'}
-    use {'nvim-tree/nvim-web-devicons'}
+    -- use {'nvim-tree/nvim-web-devicons'}
     use {'rcarriga/nvim-dap-ui'}
     use {'theHamsta/nvim-dap-virtual-text'}
     use {'rcarriga/cmp-dap'}
@@ -104,12 +104,9 @@ return require('packer').startup(function()
         require('windows').setup()
     end
     }
-    use { "nvim-neotest/nvim-nio" }
-    use {
-  'nvim-tree/nvim-tree.lua',
-  requires = {
-    'nvim-tree/nvim-web-devicons', -- optional, for file icons
-  },
-  tag = 'nightly' -- optional, updated every week. (see issue #1193)
+    use { 'nvim-tree/nvim-tree.lua',
+    requires = {
+        'nvim-tree/nvim-web-devicons', -- optional, for file icons
+    }
 }
 end)

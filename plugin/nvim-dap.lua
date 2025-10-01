@@ -28,9 +28,9 @@ dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close()
 end
 
--- require('dap-python').setup('/usr/bin/python') -- This doesn't work for some reason
+require('dap-python').setup('/usr/bin/python3') -- This doesn't work for some reason
 -- require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
-require('dap-python').setup('/Users/kezra/Library/Caches/pypoetry/virtualenvs/rook-usGgVjGY-py3.9/bin/python')
+-- require('dap-python').setup('/Users/kezra/Library/Caches/pypoetry/virtualenvs/rook-usGgVjGY-py3.9/bin/python')
 
 -- require("neodev").setup({
 --   library = { plugins = { "nvim-dap-ui" }, types = true },
