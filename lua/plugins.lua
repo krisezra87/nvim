@@ -73,7 +73,7 @@ return require('packer').startup(function()
 
     -- Tags
     use {'majutsushi/tagbar'}
-    -- use {'mbbill/undotree'}
+    use {'mbbill/undotree'}
 
     -- Show colors of hex codes
     use {'chrisbra/Colorizer'}
