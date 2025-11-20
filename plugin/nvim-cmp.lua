@@ -5,18 +5,7 @@ require("neodev").setup({
 })
 
 -- then setup your lsp server as usual
-local lspconfig = require('lspconfig')
-
--- example to setup lua_ls and enable call snippets
-lspconfig.lua_ls.setup({
-  settings = {
-    Lua = {
-      completion = {
-        callSnippet = "Replace"
-      }
-    }
-  }
-})
+local lspconfig = vim.lsp.config
 
 -- -- Set up lspconfig capabilities.
 -- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
