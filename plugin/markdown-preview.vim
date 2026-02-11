@@ -31,7 +31,7 @@ let g:mkdp_open_ip = ''
 
 " specify browser to open preview page
 " default: ''
-let g:mkdp_browser = 'qutebrowser'
+let g:mkdp_browser = ''
 
 " set to 1, echo preview page url in command line when open preview page
 " default is 0
@@ -87,4 +87,8 @@ let g:mkdp_page_title = '${name}'
 
 " recognized filetypes
 " these filetypes will have MarkdownPreview... commands
-let g:mkdp_filetypes = ['markdown']
+let g:mkdp_filetypes = ['markdown', 'md']
+
+" nmap <C-s> <Plug>MarkdownPreview
+" nmap <M-s> <Plug>MarkdownPreviewStop
+nmap <C-m> <Plug>MarkdownPreviewToggle
