@@ -1,113 +1,119 @@
-return require('packer').startup(function()
-    -- Manage packer itself
-    use {'wbthomason/packer.nvim', opt=true}
+-- Example: lua/plugins.lua or in your init.lua
+require("lazy").setup({
+  -- Manage lazy itself (packer self-management is no longer needed)
 
-    -- use {'ulwlu/elly.vim'}
-    use {'shaunsingh/nord.nvim'}
+  -- Colorscheme
+  { "shaunsingh/nord.nvim" },
 
-    use {'tpope/vim-fugitive'}
-    use {'junegunn/fzf',dir = '~/.fzf',run = './install --all'}
-    use {'ibhagwan/fzf-lua'}
-    -- use {'junegunn/fzf.vim'}
+  -- Git / FZF
+  { "tpope/vim-fugitive" },
+  { "junegunn/fzf", build = "echo 'Skipping fzf install'" },
+  { "ibhagwan/fzf-lua" },
 
-    -- Core functionality
-    use {'markonm/traces.vim'}
-    use {'tomtom/tcomment_vim'}
-    use {'tpope/vim-surround'}
-    use {'chaoren/vim-wordmotion'}
-    use {'unblevable/quick-scope'}
-    use {'wellle/targets.vim'}
-    -- Make indentations vim objects
-    use {'michaeljsmith/vim-indent-object'}
-    use {'tommcdo/vim-lion'}
-    use {'airblade/vim-rooter'}
-    -- Show indentation line markers
-    use {'lukas-reineke/indent-blankline.nvim'}
-    -- Context-aware pasting.  Paste with correct local indents
-    use {'sickill/vim-pasta'}
-    -- Identify whitespace and strip on save
-    use {'ntpeters/vim-better-whitespace'}
+  -- Core functionality
+  { "markonm/traces.vim" },
+  { "tomtom/tcomment_vim" },
+  { "tpope/vim-surround" },
+  { "chaoren/vim-wordmotion" },
+  { "unblevable/quick-scope" },
+  { "wellle/targets.vim" },
+  { "michaeljsmith/vim-indent-object" },
+  { "tommcdo/vim-lion" },
+  { "airblade/vim-rooter" },
+  { "lukas-reineke/indent-blankline.nvim" },
+  { "sickill/vim-pasta" },
+  { "ntpeters/vim-better-whitespace" },
 
-    -- vimwiki
-    use {'vimwiki/vimwiki'}
-    -- Task Wiki Integration (Requires vimwiki)
-    -- use {'tools-life/taskwiki'}
+  -- vimwiki
+  { "vimwiki/vimwiki" },
+  -- { "tools-life/taskwiki" }, -- commented out like original
 
-    -- Repeat enabled for . on plugin mappings (Surround.vim)
-    use {'tpope/vim-repeat'}
+  -- Repeat for plugin mappings
+  { "tpope/vim-repeat" },
 
-    -- Better integration with tmux
-    use {'christoomey/vim-tmux-navigator'}
+  -- Tmux integration
+  { "christoomey/vim-tmux-navigator" },
 
-    -- Better usage and compiling of LaTeX
-    -- This does syntax stuff, maybe use treesitter here
-    -- instead?
-    use {'lervag/vimtex'}
+  -- LaTeX
+  { "lervag/vimtex" },
 
-    -- use {'SirVer/ultisnips', opt = true, cmd = {'UltiSnips#ExpandSnippetOrJump','UltiSnipsEdit'}}
-    use {'SirVer/ultisnips'}
-    use {'honza/vim-snippets'}
+  -- Snippets
+  { "SirVer/ultisnips" },
+  { "honza/vim-snippets" },
 
-    -- Tree Sitter
-    use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  -- Treesitter
+{
+  "nvim-treesitter/nvim-treesitter",
+  -- build = ":TSUpdate",
+  config = function()
+    require'nvim-treesitter.configs'.setup {
+      -- ensure_installed = {"python","bash","bibtex","regex","vim","json","json5","toml"},
+      sync_install = false,
+      auto_install = false,
+      ignore_install = {"latex"},
+      highlight = {
+        enable = true,
+        disable = {'latex', 'lua'},
+      },
+    }
+  end,
+},
 
-    -- -- Nvim cmp for completion
-    use {'neovim/nvim-lspconfig'}
-    use {'hrsh7th/cmp-nvim-lsp'}
-    use {'hrsh7th/cmp-nvim-lsp-signature-help'}
-    use {'hrsh7th/cmp-buffer'}
-    use {'hrsh7th/cmp-path'}
-    use {'hrsh7th/cmp-cmdline'}
-    use {'hrsh7th/nvim-cmp'}
-    use {'quangnguyen30192/cmp-nvim-ultisnips'}
-    use {'folke/neodev.nvim'}
+  -- LSP / completion
+  { "neovim/nvim-lspconfig" },
+  { "hrsh7th/cmp-nvim-lsp" },
+  { "hrsh7th/cmp-nvim-lsp-signature-help" },
+  { "hrsh7th/cmp-buffer" },
+  { "hrsh7th/cmp-path" },
+  { "hrsh7th/cmp-cmdline" },
+  { "hrsh7th/nvim-cmp" },
+  { "quangnguyen30192/cmp-nvim-ultisnips" },
+  { "folke/neodev.nvim" },
 
-    -- Debugging
-    use {'nvim-neotest/nvim-nio'}
-    use {'mfussenegger/nvim-dap'}
-    use {'nvim-tree/nvim-web-devicons'}
-    use {'rcarriga/nvim-dap-ui'}
-    use {'theHamsta/nvim-dap-virtual-text'}
-    use {'rcarriga/cmp-dap'}
-    use {'mfussenegger/nvim-dap-python'}
+  -- Debugging
+  { "nvim-neotest/nvim-nio" },
+  { "mfussenegger/nvim-dap" },
+  { "nvim-tree/nvim-web-devicons" },
+  { "rcarriga/nvim-dap-ui" },
+  { "theHamsta/nvim-dap-virtual-text" },
+  { "rcarriga/cmp-dap" },
+  { "mfussenegger/nvim-dap-python" },
 
-    -- Tags
-    use {'majutsushi/tagbar'}
-    use {'mbbill/undotree'}
+  -- Tags / undo tree
+  { "majutsushi/tagbar" },
+  { "mbbill/undotree" },
 
-    -- Show colors of hex codes
-    use {'chrisbra/Colorizer'}
+  -- Colors / git helpers / ripgrep
+  { "chrisbra/Colorizer" },
+  { "rhysd/git-messenger.vim" },
+  { "jremmen/vim-ripgrep" },
 
-    -- Give nice popups for git things
-    use {'rhysd/git-messenger.vim'}
+  -- Markdown preview
+  { "iamcco/markdown-preview.nvim", build = "cd app && yarn install" },
 
-    -- Ripgrep integration
-    use {'jremmen/vim-ripgrep'}
+  -- Neomake (LSP/linters)
+  { "neomake/neomake" },
 
-    -- For markdown previews
-    use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install'}
-
-    -- For LSP
-    use {'neomake/neomake'}
-
-    -- For doing nice window sizing based on activity
-
-    use { "anuvyklack/windows.nvim",
-    requires = {
-        "anuvyklack/middleclass",
-        "anuvyklack/animation.nvim"
+  -- Window management (with dependencies and config)
+  {
+    "anuvyklack/windows.nvim",
+    dependencies = {
+      "anuvyklack/middleclass",
+      "anuvyklack/animation.nvim",
     },
     config = function()
-        vim.o.winwidth = 10
-        vim.o.winminwidth = 10
-        vim.o.equalalways = false
-        require('windows').setup()
-    end
-    }
-    use {
-  'nvim-tree/nvim-tree.lua',
-  requires = {
-    'nvim-tree/nvim-web-devicons', -- optional, for file icons
-  }
-}
-end)
+      vim.o.winwidth = 10
+      vim.o.winminwidth = 10
+      vim.o.equalalways = false
+      require("windows").setup()
+    end,
+  },
+
+  -- Nvim-tree (with dependency)
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+  },
+})
