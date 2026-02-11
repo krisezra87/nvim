@@ -4,8 +4,19 @@ require("neodev").setup({
   library = { plugins = { "nvim-dap-ui" }, types = true },
 })
 
--- then setup your lsp server as usual
-local lspconfig = vim.lsp.config
+-- Define the config
+vim.lsp.config('lua_ls', {
+  settings = {
+    Lua = {
+      completion = {
+        callSnippet = "Replace",
+      },
+    },
+  },
+})
+
+-- Enable the server (e.g. in your startup)
+vim.lsp.enable('lua_ls')
 
 -- -- Set up lspconfig capabilities.
 -- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
