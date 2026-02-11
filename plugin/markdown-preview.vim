@@ -91,4 +91,4 @@ let g:mkdp_filetypes = ['markdown', 'md']
 
 " nmap <C-s> <Plug>MarkdownPreview
 " nmap <M-s> <Plug>MarkdownPreviewStop
-nmap <C-m> <Plug>MarkdownPreviewToggle
+nmap <C-p> <Plug>MarkdownPreviewToggle
