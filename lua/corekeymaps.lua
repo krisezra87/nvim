@@ -37,3 +37,15 @@ utils.map('x','>','>gv')
 
 cmd ':command E Explore'
 cmd ':command EC e $MYVIMRC'
+
+-- -- Fix Enter key in command-line window
+-- vim.api.nvim_create_autocmd('CmdwinEnter', {
+--   callback = function()
+--     -- Enter should execute the command under cursor and close the window
+--     vim.keymap.set('n', '<CR>', function()
+--       local line = vim.fn.getline('.')
+--       vim.api.nvim_win_close(0, true)  -- Close command window
+--       vim.cmd(line)  -- Execute the command
+--     end, { buffer = true, silent = true })
+--   end,
+-- })

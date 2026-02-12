@@ -44,12 +44,12 @@ require("lazy").setup({
   -- Treesitter
 {
   "nvim-treesitter/nvim-treesitter",
-  -- build = ":TSUpdate",
+  build = ":TSUpdate",
   config = function()
-    require'nvim-treesitter.configs'.setup {
-      -- ensure_installed = {"python","bash","bibtex","regex","vim","json","json5","toml"},
+    require('nvim-treesitter').setup {
+      ensure_installed = {"python","bash","bibtex","regex","vim","vimdoc","json","json5","toml"},
       sync_install = false,
-      auto_install = false,
+      auto_install = true,
       ignore_install = {"latex"},
       highlight = {
         enable = true,
@@ -60,7 +60,6 @@ require("lazy").setup({
 },
 
   -- LSP / completion
-  { "neovim/nvim-lspconfig" },
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/cmp-nvim-lsp-signature-help" },
   { "hrsh7th/cmp-buffer" },
@@ -69,6 +68,7 @@ require("lazy").setup({
   { "hrsh7th/nvim-cmp" },
   { "quangnguyen30192/cmp-nvim-ultisnips" },
   { "folke/neodev.nvim" },
+  {"neovim/nvim-lspconfig"}, --required by neodev, but otherwise don't use
 
   -- Debugging
   { "nvim-neotest/nvim-nio" },
@@ -78,21 +78,14 @@ require("lazy").setup({
   { "theHamsta/nvim-dap-virtual-text" },
   { "rcarriga/cmp-dap" },
   { "mfussenegger/nvim-dap-python" },
-
-  -- Tags / undo tree
-  { "majutsushi/tagbar" },
   { "mbbill/undotree" },
 
-  -- Colors / git helpers / ripgrep
+  -- Colors / git helpers
   { "chrisbra/Colorizer" },
   { "rhysd/git-messenger.vim" },
-  { "jremmen/vim-ripgrep" },
 
   -- Markdown preview
   { "iamcco/markdown-preview.nvim", build = "cd app && yarn install" },
-
-  -- Neomake (LSP/linters)
-  { "neomake/neomake" },
 
   -- Window management (with dependencies and config)
   {

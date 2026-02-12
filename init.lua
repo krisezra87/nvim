@@ -13,9 +13,6 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Add preferred defaults
-require('settings')
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -29,11 +26,19 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Include plugins
+require('plugins')
+
+require('lsp')
+require('fzf-config')
+
+-- Add preferred defaults
+require('settings')
+
+
 -- Core key mappings
 require('corekeymaps')
 
--- Include plugins
-require('plugins')
 
 require('config.colorscheme') -- colorscheme additional setup
 
