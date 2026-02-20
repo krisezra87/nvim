@@ -1,8 +1,31 @@
--- This runs after plugins are loaded
+-- Prevent sign column flickering
+vim.opt.signcolumn = 'yes'
+
+-- Global diagnostic configuration (set once, applies everywhere)
+-- Could consider "INFO" as an option here
+vim.diagnostic.config({
+  virtual_text = {
+    spacing = 4,
+    prefix = '●',
+    severity = { min = vim.diagnostic.severity.WARN },
+  },
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    border = 'rounded',
+    source = 'always',
+  },
+})
+
+-- Reduce LSP log level to prevent large log files
+vim.lsp.set_log_level('WARN')
+
 local capabilities = require('cmp_nvim_lsp')
   .default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- Global LspAttach handler (applies to ALL LSP servers)
+-- Global LspAttach handler
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local bufnr = args.buf
@@ -16,9 +39,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>ep', vim.diagnostic.goto_prev, opts)
     vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', '<leader>up', vim.lsp.buf.code_action, opts)
-
-    -- Symbol navigation:
-    -- vim.keymap.set('n', '<leader>t', '<cmd>FzfLua lsp_workspace_symbols<cr>', opts)
     vim.keymap.set('n', '<leader>t', '<cmd>FzfLua lsp_document_symbols<cr>', opts)
   end,
 })
@@ -50,30 +70,30 @@ vim.lsp.config('lua_ls', {
 })
 
 -- Enable pyright for Python files
-vim.api.nvim_create_autocmd({'FileType', 'BufEnter'}, {
-  pattern = '*.py',
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'python',
   callback = function(ev)
-    if vim.bo[ev.buf].filetype == 'python' then
-      vim.schedule(function()
-        vim.api.nvim_set_current_buf(ev.buf)
-        vim.lsp.enable('pyright')
-      end)
+    vim.schedule(function()
+      local clients = vim.lsp.get_clients({ bufnr = ev.buf, name = 'pyright' })
+      if #clients == 0 then
+        vim.lsp.enable('pyright', ev.buf)
+      end
+    end)
 
-      vim.opt_local.foldmethod = 'expr'
-      vim.opt_local.foldexpr = 'nvim_treesitter#foldexpr()'
-    end
+    vim.opt_local.foldmethod = 'expr'
+    vim.opt_local.foldexpr = 'nvim_treesitter#foldexpr()'
   end,
 })
 
 -- Enable lua_ls for Lua files
-vim.api.nvim_create_autocmd({'FileType', 'BufEnter'}, {
-  pattern = '*.lua',
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'lua',
   callback = function(ev)
-    if vim.bo[ev.buf].filetype == 'lua' then
-      vim.schedule(function()
-        vim.api.nvim_set_current_buf(ev.buf)
-        vim.lsp.enable('lua_ls')
-      end)
-    end
+    vim.schedule(function()
+      local clients = vim.lsp.get_clients({ bufnr = ev.buf, name = 'lua_ls' })
+      if #clients == 0 then
+        vim.lsp.enable('lua_ls', ev.buf)
+      end
+    end)
   end,
 })
