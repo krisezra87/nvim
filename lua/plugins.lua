@@ -10,23 +10,30 @@ require("lazy").setup({
   { "junegunn/fzf", build = "echo 'Skipping fzf install'" },
   { "ibhagwan/fzf-lua" },
 
-  -- Core functionality
-  { "markonm/traces.vim" },
-  { "tomtom/tcomment_vim" },
-  { "tpope/vim-surround" },
-  { "chaoren/vim-wordmotion" },
-  { "unblevable/quick-scope" },
-  { "wellle/targets.vim" },
-  { "michaeljsmith/vim-indent-object" },
-  { "tommcdo/vim-lion" },
-  { "airblade/vim-rooter" },
-  { "lukas-reineke/indent-blankline.nvim" },
-  { "sickill/vim-pasta" },
-  { "ntpeters/vim-better-whitespace" },
-
-  -- vimwiki
-  { "vimwiki/vimwiki" },
-  -- { "tools-life/taskwiki" }, -- commented out like original
+    -- Core functionality
+    { "markonm/traces.vim" },
+    { "tomtom/tcomment_vim" },
+    { "tpope/vim-surround" },
+    { "chaoren/vim-wordmotion" },
+    { "unblevable/quick-scope" },
+    { "wellle/targets.vim" },
+    { "michaeljsmith/vim-indent-object" },
+    { "tommcdo/vim-lion" },
+    { "airblade/vim-rooter" },
+    { "lukas-reineke/indent-blankline.nvim" },
+    { "sickill/vim-pasta" },
+    { "ntpeters/vim-better-whitespace" },
+    {
+        "vimwiki/vimwiki",
+        init = function()
+            vim.g.vimwiki_list = {
+                {
+                    path   = vim.fn.expand("~/.vimwiki"),
+                    syntax = "markdown",
+                    ext    = ".md",
+                }, }
+        end
+    },
 
   -- Repeat for plugin mappings
   { "tpope/vim-repeat" },
