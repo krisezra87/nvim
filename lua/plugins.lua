@@ -73,7 +73,7 @@ require("lazy").setup({
   { "hrsh7th/cmp-path" },
   { "hrsh7th/cmp-cmdline" },
   { "hrsh7th/nvim-cmp" },
-  { "quangnguyen30192/cmp-nvim-ultisnips" },
+  { "L3MON4D3/LuaSnip" },
   { "folke/neodev.nvim" },
   {"neovim/nvim-lspconfig"}, --required by neodev, but otherwise don't use
 
