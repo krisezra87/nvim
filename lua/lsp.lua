@@ -20,7 +20,7 @@ vim.diagnostic.config({
 })
 
 -- Reduce LSP log level to prevent large log files
-vim.lsp.set_log_level('WARN')
+vim.lsp.log.set_level('WARN')
 
 local capabilities = require('cmp_nvim_lsp')
   .default_capabilities(vim.lsp.protocol.make_client_capabilities())
