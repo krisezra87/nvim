@@ -1,6 +1,5 @@
 -- Example: lua/plugins.lua or in your init.lua
 require("lazy").setup({
-  -- Manage lazy itself (packer self-management is no longer needed)
 
   -- Colorscheme
   { "shaunsingh/nord.nvim" },
