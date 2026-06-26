@@ -35,7 +35,7 @@
 
 ### Active Source
 - Module-level variable: `active_source = { stub, title, rel_path }`
-- `<leader>zs` — FZF picker over `book_notes/`, reads H1 for title, sets variable
+- `<leader>zs` — FZF picker over `notes/`, reads H1 for title, sets variable
 - `<leader>zS` — clear active source
 - `<leader>zr` — stamp active source into `## References` of current buffer
 - All creation commands auto-include active source in `## References` if set
@@ -59,7 +59,7 @@
 - `<leader>zr` — stamp active source into current note ← NEW
 
 ### New Commands
-- `:ZetSummary` — harvest backlinks from current book_notes file, sorted by Date
+- `:ZetSummary` — harvest backlinks from current notes file, sorted by Date
 - `:RenameZettel` — rename file + ripgrep-replace all links across zettelkasten
 - `:ZetOpenLoops` — grep for non-empty `## Open Questions` sections, open in fzf-lua ← NEW
 
@@ -85,7 +85,7 @@ Add this autocmd to zettel.lua.
 ---
 
 ## Bibliography Linking ✅
-- [x] 135 zettels migrated from plain-text refs to `[[../book_notes/stem|Title]]` wikilinks
+- [x] 135 zettels migrated from plain-text refs to `[[../notes/stem|Title]]` wikilinks
 - [x] Stubs created for books without literature notes: influence, getting_things_done,
       reinforcement_learning_introduction, moonwalking_with_einstein, battle_hymn_of_the_tiger_mother
 - [x] 3 non-book sources remain plain text (Udacity course, conversation, YouTube video) — intentional
@@ -139,21 +139,21 @@ Implementation notes:
 Ahrens intends a continuous, small-batch process — not end-of-book synthesis:
 
 1. **Fleeting notes** — paper or phone during reading; process within a day or two
-2. **Literature notes** — brief, in own words, written same day; lives in `book_notes/` file which grows with the book
+2. **Literature notes** — brief, in own words, written same day; lives in `notes/` file which grows with the book
 3. **Permanent zettels** — one idea per note, written from literature notes the next day; linked immediately into zettelkasten
 
 Changes from current practice:
 - [ ] Stop waiting until end of book to synthesize; write zettels continuously during reading
-- [ ] `book_notes/` files are living literature notes, not summaries — lighter treatment for new books
+- [ ] `notes/` files are living literature notes, not summaries — lighter treatment for new books
 - [ ] Separate summary files are eliminated; the zettels accumulate to form the summary organically
 
 ### Book Notes as Literature Notes
-- The `book_notes/` file for each book grows as you read (add to it per session)
-- Each zettel's `## References` links back to the book_notes file (via active source)
+- The `notes/` file for each book grows as you read (add to it per session)
+- Each zettel's `## References` links back to the notes file (via active source)
 - "Summary" is generated dynamically by harvesting backlinks — no separate file needed
 
 ### :ZetSummary Command (NEW)
-- Run from a `book_notes/` file
+- Run from a `notes/` file
 - Finds all zettels whose `## References` section links to the current file
 - Opens a scratch buffer listing them sorted by Date field (chronological reading order)
 - This replaces the written summary file entirely
@@ -199,7 +199,7 @@ Luhmann's physical IDs (1a2b3c) decoupled the address from the title — links u
 - **Project notes** → new `projects/` folder at the vimwiki root, alongside `lists/` and `reference_notes/`
 - **Zettel addressing** → descriptive filenames + `:RenameZettel` tooling only; timestamp stays as the `Date:` field inside the file (not in the filename); no timestamp IDs
 - **Filename conventions** → all zettelkasten files `lowercase_with_underscores`; no hyphens; book hub notes carry `_summary` suffix (e.g. `deep_work_summary.md`) to distinguish from concept zettels; `q_` prefix removed from question files (tag handles it)
-- **All `## References` migrated** → wikilinks to `book_notes/`; stubs created for Influence, GTD, RL, Moonwalking, Battle Hymn
+- **All `## References` migrated** → wikilinks to `notes/`; stubs created for Influence, GTD, RL, Moonwalking, Battle Hymn
 - **Structural homogenization complete** → every content file has `Date`/`Status`/`Tags`/`## Links`/`## References`; navigation files (zettel_index, book_summaries, politics MoC, zettelkasten MoC) intentionally excluded
 - **Open questions** → `## Open Questions` ad-hoc section + `#[[open_question]]` tag; not in template; 13 existing files tagged
 - **Backlinks** → no manual maintenance; `<leader>zb` (interactive) + virtual lines on BufEnter (passive, Phase 2)
