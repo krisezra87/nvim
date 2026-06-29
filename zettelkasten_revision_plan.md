@@ -25,51 +25,47 @@
 
 ---
 
-## zettel.lua Consolidation
+## zettel.lua Consolidation ✅
 
-### Template Generation
-- Drop UltiSnips dependency for zettel creation
-- Write templates natively via `nvim_buf_set_lines`
-- Cursor lands at body text area on open
-- Keep `vimwiki.snippets` `zet` snippet available as fallback but not used by commands
+### Template Generation ✅
+- [x] Drop UltiSnips dependency — templates written natively via `nvim_buf_set_lines`
+- [x] Cursor lands at body text area on open
+- [x] `vimwiki.snippets` `zet` snippet kept as fallback
 
-### Active Source
-- Module-level variable: `active_source = { stub, title, rel_path }`
-- `<leader>zs` — FZF picker over `notes/`, reads H1 for title, sets variable
-- `<leader>zS` — clear active source
-- `<leader>zr` — stamp active source into `## References` of current buffer
-- All creation commands auto-include active source in `## References` if set
+### Active Source ✅
+- [x] Module-level variable: `active_source = { stub, title, rel_path }`
+- [x] `<leader>zs` — sets from current file when in `notes/`, picker otherwise
+- [x] `<leader>zS` — clear active source
+- [x] `<leader>zr` — stamp active source into `## References` of current buffer
+- [x] `<leader>zR` — one-shot picker: pick any notes file and stamp reference (no state change)
+- [x] All creation commands auto-include active source in `## References` if set
 
-### Commands to consolidate from wikinote.vim
-- `:Zet` — new zettel (native template + active source)
-- `:ContZet` — new zettel + forward link inserted in current note's `## Links`
-- `:LinkLit` — new zettel from current book note (fix: reference goes into `## References`, not line 1)
-- `:LinkZet` — new zettel with back-link to current (reconsider: ContZet may supersede this)
-- `:ZI` — jump to zettel index
+### Commands consolidated from wikinote.vim ✅
+- [x] `:Zet` — new zettel; splits vertically from `notes/`, edits in place elsewhere
+- [x] `:ContZet` — new zettel + forward link inserted in current note's `## Links`
+- [x] `:LinkLit` — new zettel from current book note (reference in `## References`)
+- [x] `:LinkZet` — new zettel with back-link to current in `## Links`
+- [x] `:ZI` — jump to zettel index
 
-### New / Updated Keymaps
-- `<leader>z`  — open zettel index
-- `<leader>zz` — FZF search zettels
-- `<leader>zl` — FZF insert zettel link
-- `<leader>zb` — FZF backlinks (ripgrep current filename across zettelkasten) ← NEW
-- `<leader>zt` — FZF add tag
-- `<leader>zT` — FZF tag search (two-step: pick tag → grep notes) ← NEW
-- `<leader>zs` — set active source ← NEW
-- `<leader>zS` — clear active source ← NEW
-- `<leader>zr` — stamp active source into current note ← NEW
+### Keymaps ✅
+- [x] `<leader>z`  — open zettel index
+- [x] `<leader>zz` — FZF search zettels (with bat preview)
+- [x] `<leader>zl` — FZF insert zettel link (with bat preview)
+- [x] `<leader>zb` — FZF backlinks (ripgrep current filename across zettelkasten)
+- [x] `<leader>zt` — FZF add tag
+- [x] `<leader>zT` — FZF tag search (two-step: pick tag → grep notes)
+- [x] `<leader>zs` / `<leader>zS` / `<leader>zr` / `<leader>zR` — active source system
 
-### New Commands
-- `:ZetSummary` — harvest backlinks from current notes file, sorted by Date
-- `:RenameZettel` — rename file + ripgrep-replace all links across zettelkasten
-- `:ZetOpenLoops` — grep for non-empty `## Open Questions` sections, open in fzf-lua ← NEW
+### Still to implement
+- [ ] `:ZetSummary` — harvest backlinks from current notes file, sorted by Date
+- [ ] `:RenameZettel` — rename file + ripgrep-replace all links across zettelkasten
+- [ ] `:ZetOpenLoops` — grep for non-empty `## Open Questions` sections, open in fzf-lua
 
-### Leave in wikinote.vim
-- `Note` / work notes commands (stale or one-off, not worth consolidating)
+### Leave in wikinote.vim ✅
+- [x] `Note` / work notes commands kept; all zettel commands removed
 
-### VimWiki Backspace Navigation Fix
-VimWiki maps `<Backspace>` to its own internal nav stack, which only tracks link-following via Enter. Zettel Lua commands open files via `vim.cmd("e ...")` which bypasses VimWiki's stack — backspace has nothing to go back to.
-
-Fix: remap `<Backspace>` to `<C-o>` (Vim's native jumplist) in VimWiki buffers. The jumplist is populated by all `:e` commands including Lua-opened files. `<C-i>` covers forward navigation.
+### VimWiki Backspace Navigation Fix ✅
+- [x] `<BS>` remapped to `<C-o>` in vimwiki buffers via FileType autocmd
 
 ```lua
 vim.api.nvim_create_autocmd("FileType", {
@@ -97,6 +93,7 @@ Add this autocmd to zettel.lua.
 - [x] `#seedling` and `#question` moved from Status to Tags (where they belong)
 - [x] `#summary`, `#moc`, `#reference` cleared from Status fields
 - [x] All Status fields now uniformly blank; Tags carry the meaningful labels
+- [x] Empty `Status:` lines removed from all 195 zettels
 
 ### Tag / MoC relationship
 `#[[tag_name]]` syntax in VimWiki is simultaneously a hashtag and a wikilink. A MoC emerges for free if you ever create `tag_name.md` — no extra work needed. MoC is never obligatory; only create one when tag search alone becomes insufficient for a dense topic cluster.
@@ -200,6 +197,6 @@ Luhmann's physical IDs (1a2b3c) decoupled the address from the title — links u
 - **Zettel addressing** → descriptive filenames + `:RenameZettel` tooling only; timestamp stays as the `Date:` field inside the file (not in the filename); no timestamp IDs
 - **Filename conventions** → all zettelkasten files `lowercase_with_underscores`; no hyphens; book hub notes carry `_summary` suffix (e.g. `deep_work_summary.md`) to distinguish from concept zettels; `q_` prefix removed from question files (tag handles it)
 - **All `## References` migrated** → wikilinks to `notes/`; stubs created for Influence, GTD, RL, Moonwalking, Battle Hymn
-- **Structural homogenization complete** → every content file has `Date`/`Status`/`Tags`/`## Links`/`## References`; navigation files (zettel_index, book_summaries, politics MoC, zettelkasten MoC) intentionally excluded
+- **Structural homogenization complete** → every content file has `Date`/`Tags`/`## Links`/`## References`; `Status:` field removed entirely (195 files); navigation files (zettel_index, book_summaries, politics MoC, zettelkasten MoC) intentionally excluded
 - **Open questions** → `## Open Questions` ad-hoc section + `#[[open_question]]` tag; not in template; 13 existing files tagged
 - **Backlinks** → no manual maintenance; `<leader>zb` (interactive) + virtual lines on BufEnter (passive, Phase 2)
