@@ -49,3 +49,9 @@ require('config.colorscheme') -- colorscheme additional setup
 
 -- Put in restart configurations for some programs
 require('restart_configs')
+
+-- Try to remove error about detecting DSR for st
+vim.o.ttimeoutlen = 10
+if vim.env.TERM and vim.env.TERM:match('st') then
+  vim.o.termguicolors = true
+end
