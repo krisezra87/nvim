@@ -39,12 +39,15 @@ Tags:
     vim.api.nvim_win_set_cursor(0, {6, 0})
 end
 
--- :Zet — new zettel
+-- :Zet — new zettel; splits vertically when originating from a notes file so the
+-- source stays visible, otherwise edits in place
 vim.api.nvim_create_user_command("Zet", function(opts)
     local args = vim.split(opts.args, " ", { trimempty = true })
     local filename = table.concat(args, "_")
     local title = table.concat(args, " ")
-    vim.cmd("e " .. vim.fn.expand(zet_dir) .. filename .. ".md")
+    local target = vim.fn.expand(zet_dir) .. filename .. ".md"
+    local from_notes = vim.fn.expand("%:p"):find(vim.fn.expand(notes_dir), 1, true)
+    vim.cmd((from_notes and "vs " or "e ") .. target)
     if buffer_is_new() then
         write_zettel_template(title)
     end
@@ -183,12 +186,10 @@ end
 
 vim.keymap.set('n', '<leader>zt', '<cmd>lua _G.fzf_add_zettel_tag()<cr>')
 
--- FZF: pick a notes/ file as the active source for this session
-_G.fzf_set_active_source = function()
+-- Shared picker over notes/ files; calls on_select(stub, title) on confirmation
+local function notes_picker(prompt, on_select)
     local fzf_lua = require'fzf-lua'
     local notes_abs = vim.fn.expand(notes_dir)
-
-    -- Build "stub: Title" entries by reading the H1 from each file in Lua
     local entries = {}
     local files = vim.fn.glob(notes_abs .. "*.md", false, true)
     table.sort(files)
@@ -202,34 +203,24 @@ _G.fzf_set_active_source = function()
             entries[#entries + 1] = stub .. ": " .. title
         end
     end
-
     fzf_lua.fzf_exec(entries, {
-        prompt = "Source > ",
-        fzf_opts = {
-            -- stub is always the first colon-delimited token; no spaces so cut -d: -f1 is safe
+        prompt    = prompt,
+        fzf_opts  = {
             ['--preview'] = "bat --color=always --style=plain " .. notes_abs .. "$(echo {} | cut -d: -f1).md",
         },
         actions = {
             ['default'] = function(selected)
-                local entry = selected[1]
-                local stub  = entry:match("^([^:]+):")
-                local title = entry:match("^[^:]+:%s*(.+)$")
-                if stub then
-                    active_source = { stub = stub, title = title, rel_path = "notes/" .. stub }
-                    vim.notify("Active source: " .. title)
-                end
+                local stub  = selected[1]:match("^([^:]+):")
+                local title = selected[1]:match("^[^:]+:%s*(.+)$")
+                if stub then on_select(stub, title) end
             end
         }
     })
 end
 
--- Stamp active source into ## References of the current buffer
-_G.stamp_active_source = function()
-    if not active_source then
-        vim.notify("No active source set", vim.log.levels.WARN)
-        return
-    end
-    local link = "[[../" .. active_source.rel_path .. "|" .. active_source.title .. "]]"
+-- Insert a reference link into ## References of the current buffer
+local function stamp_reference(stub, title)
+    local link = "[[../notes/" .. stub .. "|" .. title .. "]]"
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     for i, line in ipairs(lines) do
         if line:match("^##%s+[Rr]eferences") then
@@ -240,12 +231,41 @@ _G.stamp_active_source = function()
     vim.notify("No ## References section found", vim.log.levels.WARN)
 end
 
-vim.keymap.set('n', '<leader>zs', '<cmd>lua _G.fzf_set_active_source()<cr>')
+-- <leader>zs — set active source from current file when in notes/, picker otherwise
+vim.keymap.set('n', '<leader>zs', function()
+    local notes_abs = vim.fn.expand(notes_dir)
+    if vim.fn.expand("%:p"):find(notes_abs, 1, true) then
+        local stub  = vim.fn.expand("%:t:r")
+        local title = vim.fn.getline(1):match("^# (.+)") or stub:gsub("_", " ")
+        active_source = { stub = stub, title = title, rel_path = "notes/" .. stub }
+        vim.notify("Active source: " .. title)
+    else
+        notes_picker("Source > ", function(stub, title)
+            active_source = { stub = stub, title = title, rel_path = "notes/" .. stub }
+            vim.notify("Active source: " .. title)
+        end)
+    end
+end)
+
+-- <leader>zS — clear active source
 vim.keymap.set('n', '<leader>zS', function()
     active_source = nil
     vim.notify("Active source cleared")
 end)
-vim.keymap.set('n', '<leader>zr', '<cmd>lua _G.stamp_active_source()<cr>')
+
+-- <leader>zr — stamp active source into ## References
+vim.keymap.set('n', '<leader>zr', function()
+    if not active_source then
+        vim.notify("No active source set", vim.log.levels.WARN)
+        return
+    end
+    stamp_reference(active_source.stub, active_source.title)
+end)
+
+-- <leader>zR — pick any notes file and stamp it into ## References (one-shot, no state change)
+vim.keymap.set('n', '<leader>zR', function()
+    notes_picker("Reference > ", stamp_reference)
+end)
 
 -- FZF: show all zettels that link to the current file (backlinks)
 _G.fzf_zettel_backlinks = function(options)
