@@ -43,7 +43,7 @@ end
 
 -- :Zet — new zettel; splits vertically when originating from a notes file so the
 -- source stays visible and auto-injects it into ## References, otherwise edits in place
-vim.api.nvim_create_user_command("Zet", function(opts)
+vim.api.nvim_create_user_command("ZetNew", function(opts)
     local args = vim.split(opts.args, " ", { trimempty = true })
     local filename = table.concat(args, "_")
     local title = table.concat(args, " ")
@@ -62,8 +62,8 @@ vim.api.nvim_create_user_command("Zet", function(opts)
     end
 end, { nargs = "*" })
 
--- :ContZet — new zettel, inserting a forward link into current note's ## Links first
-vim.api.nvim_create_user_command("ContZet", function(opts)
+-- :ZetCont — new zettel, inserting a forward link into current note's ## Links first
+vim.api.nvim_create_user_command("ZetCont", function(opts)
     local args = vim.split(opts.args, " ", { trimempty = true })
     local filename = table.concat(args, "_")
     local title = table.concat(args, " ")
@@ -86,23 +86,9 @@ vim.api.nvim_create_user_command("ContZet", function(opts)
     end
 end, { nargs = "*" })
 
--- :LinkZet — new zettel with a back-link to the current zettel in ## Links
-vim.api.nvim_create_user_command("LinkZet", function(opts)
-    local args = vim.split(opts.args, " ", { trimempty = true })
-    local filename = table.concat(args, "_")
-    local title = table.concat(args, " ")
-    local cur_stem = vim.fn.expand("%:t:r")
-    local cur_title = cur_stem:gsub("_", " ")
-    local back_link = "[[" .. cur_stem .. "|" .. cur_title .. "]]\n"
 
-    vim.cmd("e " .. vim.fn.expand(zet_dir) .. filename .. ".md")
-    if buffer_is_new() then
-        write_zettel_template(title, { links = back_link })
-    end
-end, { nargs = "*" })
-
--- :ZI — jump to zettel index
-vim.api.nvim_create_user_command("ZI", function()
+-- :ZetIndex — jump to zettel index
+vim.api.nvim_create_user_command("ZetIndex", function()
     vim.cmd("e ~/.vimwiki/zettelkasten/zettel_index.md")
 end, {})
 
@@ -175,13 +161,13 @@ vim.api.nvim_create_user_command("ZetSummary", function()
     vim.bo.modifiable = false
 end, {})
 
--- :RenameZettel — rename current zettel file + update all [[old_stem links across zettelkasten
-vim.api.nvim_create_user_command("RenameZettel", function()
+-- :ZetRename — rename current zettel file + update all [[old_stem links across zettelkasten
+vim.api.nvim_create_user_command("ZetRename", function()
     local cur_path = vim.fn.expand("%:p")
     local zet_abs  = vim.fn.expand(zet_dir)
 
     if not cur_path:find(zet_abs, 1, true) then
-        vim.notify("RenameZettel must be run from a zettelkasten file", vim.log.levels.WARN)
+        vim.notify("ZetRename must be run from a zettelkasten file", vim.log.levels.WARN)
         return
     end
 
@@ -298,7 +284,7 @@ _G.fzf_zettel_search = function(options)
 end
 
 vim.keymap.set('n', '<leader>zz', '<cmd>lua _G.fzf_zettel_search()<cr>')
-vim.keymap.set('n', '<leader>z',  '<cmd>ZI<cr>')
+vim.keymap.set('n', '<leader>z',  '<cmd>ZetIndex<cr>')
 
 -- FZF: insert a wikilink to a zettel
 _G.fzf_zettel_link = function(options)
