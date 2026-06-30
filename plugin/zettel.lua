@@ -31,7 +31,9 @@ Tags:
 ## Links
 %s
 ## References
-%s]], title, date, links_block, refs_block)
+%s
+## Open Questions
+]], title, date, links_block, refs_block)
 
     local lines = vim.split(template, "\n")
     vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
@@ -112,6 +114,113 @@ end, { nargs = "*" })
 -- :ZI — jump to zettel index
 vim.api.nvim_create_user_command("ZI", function()
     vim.cmd("e ~/.vimwiki/zettelkasten/zettel_index.md")
+end, {})
+
+-- :ZetSummary — run from a notes/ file; opens a scratch buffer listing all zettels
+-- that reference it via ## References, sorted chronologically by their Date field.
+vim.api.nvim_create_user_command("ZetSummary", function()
+    local cur_path = vim.fn.expand("%:p")
+    local notes_abs = vim.fn.expand(notes_dir)
+    local zet_abs   = vim.fn.expand(zet_dir)
+
+    if not cur_path:find(notes_abs, 1, true) then
+        vim.notify("ZetSummary must be run from a notes/ file", vim.log.levels.WARN)
+        return
+    end
+
+    local stem  = vim.fn.expand("%:t:r")
+    local title = vim.fn.getline(1):match("^# (.+)") or stem:gsub("_", " ")
+
+    -- Find all zettels that contain a link back to this notes file
+    local paths = vim.fn.systemlist(
+        "rg --files-with-matches " .. vim.fn.shellescape("notes/" .. stem)
+        .. " -g '*." .. zet_ext .. "' " .. vim.fn.shellescape(zet_abs)
+    )
+
+    if #paths == 0 then
+        vim.notify("No zettels reference " .. stem, vim.log.levels.INFO)
+        return
+    end
+
+    -- Read H1 title and Date from each zettel
+    local zettels = {}
+    for _, path in ipairs(paths) do
+        local zstub  = vim.fn.fnamemodify(path, ":t:r")
+        local ztitle = zstub:gsub("_", " ")
+        local date   = ""
+        local f = io.open(path, "r")
+        if f then
+            for line in f:lines() do
+                if line:match("^# ") then
+                    ztitle = line:match("^# (.+)") or ztitle
+                elseif line:match("^Date:") then
+                    date = line:match("^Date:%s*(.+)") or ""
+                    break
+                end
+            end
+            f:close()
+        end
+        zettels[#zettels + 1] = { date = date, stub = zstub, title = ztitle }
+    end
+
+    -- Sort chronologically (YYYY-MM-DD-HHMM is lexicographically sortable)
+    table.sort(zettels, function(a, b) return a.date < b.date end)
+
+    -- Build scratch buffer lines
+    local lines = { "# " .. title .. " — linked zettels", "" }
+    for _, z in ipairs(zettels) do
+        lines[#lines + 1] = "[[" .. z.stub .. "|" .. z.title .. "]]  " .. z.date
+    end
+
+    -- Open in a horizontal split as a read-only vimwiki scratch buffer.
+    -- Naming the buffer inside the zettelkasten directory lets vimwiki resolve
+    -- [[wikilinks]] correctly when following them with <CR>.
+    vim.cmd("new")
+    vim.bo.buftype   = "nofile"
+    vim.bo.bufhidden = "wipe"
+    vim.bo.swapfile  = false
+    vim.api.nvim_buf_set_name(0, zet_abs .. "_ZetSummary.md")
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+    vim.bo.filetype   = "vimwiki"
+    vim.bo.modifiable = false
+end, {})
+
+-- :ZetOpenLoops — find zettels with non-empty ## Open Questions sections
+vim.api.nvim_create_user_command("ZetOpenLoops", function()
+    local fzf_lua = require'fzf-lua'
+    local zet_abs = vim.fn.expand(zet_dir)
+    local files = vim.fn.glob(zet_abs .. "*." .. zet_ext, false, true)
+    local matches = {}
+
+    for _, path in ipairs(files) do
+        local f = io.open(path, "r")
+        if f then
+            local in_section = false
+            for line in f:lines() do
+                if line:match("^## Open Questions") then
+                    in_section = true
+                elseif in_section then
+                    if line:match("^##") then break end      -- next section, no content found
+                    if line:match("%S") then                  -- non-blank line = has content
+                        matches[#matches + 1] = vim.fn.fnamemodify(path, ":t:r"):gsub("_", " ")
+                        break
+                    end
+                end
+            end
+            f:close()
+        end
+    end
+
+    if #matches == 0 then
+        vim.notify("No open loops found", vim.log.levels.INFO)
+        return
+    end
+
+    fzf_lua.fzf_exec(matches, {
+        prompt   = "Open Loops > ",
+        fzf_opts = zettel_fzf_opts,
+        actions  = { ['default'] = function(sel) open_zettel(sel[1]) end },
+    })
 end, {})
 
 -- Helpers shared by all file pickers
@@ -230,6 +339,13 @@ local function stamp_reference(stub, title)
     end
     vim.notify("No ## References section found", vim.log.levels.WARN)
 end
+
+-- <leader>zn — browse and open a notes/ file
+vim.keymap.set('n', '<leader>zn', function()
+    notes_picker("Notes > ", function(stub, _)
+        vim.cmd("e " .. vim.fn.expand(notes_dir) .. stub .. ".md")
+    end)
+end)
 
 -- <leader>zs — set active source from current file when in notes/, picker otherwise
 vim.keymap.set('n', '<leader>zs', function()
