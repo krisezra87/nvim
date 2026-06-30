@@ -42,16 +42,23 @@ Tags:
 end
 
 -- :Zet — new zettel; splits vertically when originating from a notes file so the
--- source stays visible, otherwise edits in place
+-- source stays visible and auto-injects it into ## References, otherwise edits in place
 vim.api.nvim_create_user_command("Zet", function(opts)
     local args = vim.split(opts.args, " ", { trimempty = true })
     local filename = table.concat(args, "_")
     local title = table.concat(args, " ")
     local target = vim.fn.expand(zet_dir) .. filename .. ".md"
-    local from_notes = vim.fn.expand("%:p"):find(vim.fn.expand(notes_dir), 1, true)
+    local notes_abs = vim.fn.expand(notes_dir)
+    local from_notes = vim.fn.expand("%:p"):find(notes_abs, 1, true)
+    local template_opts = {}
+    if from_notes then
+        local stub = vim.fn.expand("%:t:r")
+        local note_title = vim.fn.getline(1):match("^# (.+)") or stub:gsub("_", " ")
+        template_opts.refs = "[[../notes/" .. stub .. "|" .. note_title .. "]]\n"
+    end
     vim.cmd((from_notes and "vs " or "e ") .. target)
     if buffer_is_new() then
-        write_zettel_template(title)
+        write_zettel_template(title, template_opts)
     end
 end, { nargs = "*" })
 
@@ -76,23 +83,6 @@ vim.api.nvim_create_user_command("ContZet", function(opts)
     vim.cmd("e " .. vim.fn.expand(zet_dir) .. filename .. ".md")
     if buffer_is_new() then
         write_zettel_template(title)
-    end
-end, { nargs = "*" })
-
--- :LinkLit — new zettel from a book note; source goes into ## References
-vim.api.nvim_create_user_command("LinkLit", function(opts)
-    local args = vim.split(opts.args, " ", { trimempty = true })
-    local filename = table.concat(args, "_")
-    local title = table.concat(args, " ")
-
-    local cur_path = vim.fn.expand("%:p")
-    local stem = cur_path:gsub(".*%.vimwiki/", ""):gsub("%.md$", "")   -- e.g. "notes/deep_work"
-    local display = stem:match("[^/]+$"):gsub("_", " ")
-    local ref_link = "[[../" .. stem .. "|" .. display .. "]]\n"
-
-    vim.cmd("e " .. vim.fn.expand(zet_dir) .. filename .. ".md")
-    if buffer_is_new() then
-        write_zettel_template(title, { refs = ref_link })
     end
 end, { nargs = "*" })
 
@@ -471,11 +461,12 @@ _G.fzf_zettel_tag_search = function(options)
     options.cwd    = zet_dir
     options.actions = {
         ['default'] = function(selected)
-            local tag = #selected > 0 and selected[1] or fzf_lua.config.__resume_data.last_query
-            local cmd = "rg --files-with-matches " .. vim.fn.shellescape("#" .. tag)
+            local raw = #selected > 0 and selected[1] or fzf_lua.config.__resume_data.last_query
+            local label = raw:match("^%[%[(.-)%]%]$") or raw
+            local cmd = "rg -F --files-with-matches " .. vim.fn.shellescape("#" .. raw)
                         .. " -g '*." .. zet_ext .. "' | sed 's/.*\\///;s/\\.md//;s/_/ /g'"
             fzf_lua.fzf_exec(cmd, {
-                prompt   = "Notes[" .. tag .. "] > ",
+                prompt   = "Notes[" .. label .. "] > ",
                 cwd      = zet_dir,
                 fzf_opts = zettel_fzf_opts,
                 actions  = { ['default'] = function(sel) open_zettel(sel[1]) end },
@@ -515,12 +506,12 @@ local function update_backlinks(buf)
             if #names == 0 then return end
             if not vim.api.nvim_buf_is_valid(buf) then return end
             local line_count = vim.api.nvim_buf_line_count(buf)
+            local virt = { { { "", "Comment" } }, { { "## Back Links", "Comment" } } }
+            for _, name in ipairs(names) do
+                virt[#virt + 1] = { { "← " .. name, "Comment" } }
+            end
             vim.api.nvim_buf_set_extmark(buf, backlink_ns, line_count - 1, 0, {
-                virt_lines = {
-                    { { "", "Comment" } },
-                    { { "## Back Links", "Comment" } },
-                    { { "← " .. table.concat(names, ", "), "Comment" } },
-                },
+                virt_lines = virt,
             })
         end)
     )
