@@ -1,6 +1,5 @@
 zet_dir = "~/.vimwiki/zettelkasten/"
 notes_dir = "~/.vimwiki/notes/"
-diary_dir = "~/.vimwiki/diary/"
 zet_ext = "md"
 
 -- Tracks the current book note being drawn from; set via <leader>zs, cleared via <leader>zS.
@@ -85,7 +84,6 @@ vim.api.nvim_create_user_command("ZetCont", function(opts)
         write_zettel_template(title)
     end
 end, { nargs = "*" })
-
 
 -- :ZetIndex — jump to zettel index
 vim.api.nvim_create_user_command("ZetIndex", function()
@@ -284,7 +282,7 @@ _G.fzf_zettel_search = function(options)
 end
 
 vim.keymap.set('n', '<leader>zz', '<cmd>lua _G.fzf_zettel_search()<cr>')
-vim.keymap.set('n', '<leader>z',  '<cmd>ZetIndex<cr>')
+vim.keymap.set('n', '<leader>zi', '<cmd>ZetIndex<cr>')
 
 -- FZF: insert a wikilink to a zettel
 _G.fzf_zettel_link = function(options)
@@ -464,7 +462,6 @@ end
 
 vim.keymap.set('n', '<leader>zT', '<cmd>lua _G.fzf_zettel_tag_search()<cr>')
 
-vim.keymap.set('n', '<leader>d', [[<cmd>lua require('fzf-lua').files({ cwd = ']] .. diary_dir .. [['})<cr>]])
 
 -- Passive backlink virtual lines: shown below the buffer on BufEnter, cleared on BufLeave
 local backlink_ns = vim.api.nvim_create_namespace("zettel_backlinks")
@@ -514,6 +511,31 @@ vim.api.nvim_create_autocmd("BufLeave", {
         vim.api.nvim_buf_clear_namespace(vim.api.nvim_get_current_buf(), backlink_ns, 0, -1)
     end,
 })
+
+-- Commands:
+--   :ZetNew [name]     new zettel; splits from notes/ and auto-injects it as reference
+--   :ZetCont [name]    new zettel + inserts forward link in current note's ## Links
+--   :ZetIndex          jump to zettel_index.md
+--   :ZetSummary        (from notes/) scratch buffer of zettels referencing this file, sorted by Date
+--   :ZetRename         rename file + update all [[links]] across zettelkasten
+--   :ZetOpenLoops      FZF picker of zettels with non-empty ## Open Questions
+--
+-- Keymaps:
+--   <leader>zi         open zettel index
+--   <leader>zz         FZF search and open zettel
+--   <leader>zl         FZF insert wikilink at cursor
+--   <leader>zb         FZF backlinks for current file (interactive)
+--   <leader>zt         FZF pick tag and insert into Tags line
+--   <leader>zT         two-step tag search: pick tag → browse notes with that tag
+--   <leader>zn         browse and open a notes/ file
+--   <leader>zs         set active source (current file if in notes/, picker otherwise)
+--   <leader>zS         clear active source
+--   <leader>zr         stamp active source into ## References
+--   <leader>zR         one-shot: pick notes file and stamp into ## References
+--
+-- Automatic:
+--   BufEnter *.md      passive backlink virtual lines below buffer (dimmed ## Back Links section)
+--   FileType vimwiki   <BS> remapped to <C-o> for jumplist-based back navigation
 
 -- VimWiki maps <BS> to its own nav stack, which only tracks Enter-followed links.
 -- Zettel commands open files via :e, bypassing that stack. Remap to <C-o> so the
