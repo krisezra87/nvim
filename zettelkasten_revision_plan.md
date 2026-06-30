@@ -57,9 +57,9 @@
 - [x] `<leader>zs` / `<leader>zS` / `<leader>zr` / `<leader>zR` — active source system
 
 ### Still to implement
-- [ ] `:ZetSummary` — harvest backlinks from current notes file, sorted by Date
+- [x] `:ZetSummary` — scratch buffer of zettels referencing current notes file, sorted by Date
+- [x] `:ZetOpenLoops` — Lua content check for non-empty `## Open Questions`; `## Open Questions` added to template; 13 existing zettels migrated to correct section order (Links → References → Open Questions)
 - [ ] `:RenameZettel` — rename file + ripgrep-replace all links across zettelkasten
-- [ ] `:ZetOpenLoops` — grep for non-empty `## Open Questions` sections, open in fzf-lua
 
 ### Leave in wikinote.vim ✅
 - [x] `Note` / work notes commands kept; all zettel commands removed
