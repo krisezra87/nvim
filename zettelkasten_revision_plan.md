@@ -19,9 +19,9 @@
 - [x] `lists/projects_list.md` created (Active / Someday/Maybe / Complete)
 - [x] `lists/checklists/notes_reviews.md` updated with explicit list names
 
-### Root Inbox
-- [ ] Process or delete `anki_import.txt`
-- [ ] Process or delete `todoist_import.md`
+### Root Inbox ✅
+- [x] Process or delete `anki_import.txt`
+- [x] Process or delete `todoist_import.md`
 
 ---
 
@@ -176,10 +176,9 @@ Luhmann's physical IDs (1a2b3c) decoupled the address from the title — links u
 - Address is immutable; display text and H1 can change freely
 - FZF search modified to display H1 titles instead of filenames
 
-### Implementation Tasks
+### Implementation Tasks ✅
 - [x] Add `:RenameZettel` command to zettel.lua — rename file + update all links via ripgrep
-- [ ] Decide: timestamp IDs for new zettels going forward, or descriptive filenames + rename tooling only
-- [ ] If timestamps: modify `fzf_zettel_search` to read H1 from each file for display
+- [x] Decided: descriptive filenames + `:RenameZettel` tooling only; timestamp IDs unnecessary since rename is now safe
 
 ### Obsidian Compatibility
 - By default Obsidian graph shows filenames — timestamp IDs would display as opaque numbers

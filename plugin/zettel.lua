@@ -489,6 +489,55 @@ vim.keymap.set('n', '<leader>zT', '<cmd>lua _G.fzf_zettel_tag_search()<cr>')
 
 vim.keymap.set('n', '<leader>d', [[<cmd>lua require('fzf-lua').files({ cwd = ']] .. diary_dir .. [['})<cr>]])
 
+-- Passive backlink virtual lines: shown below the buffer on BufEnter, cleared on BufLeave
+local backlink_ns = vim.api.nvim_create_namespace("zettel_backlinks")
+
+local function update_backlinks(buf)
+    vim.api.nvim_buf_clear_namespace(buf, backlink_ns, 0, -1)
+    local path = vim.api.nvim_buf_get_name(buf)
+    local zet_abs = vim.fn.expand(zet_dir)
+    if not path:find(zet_abs, 1, true) then return end
+    local stem = path:match("([^/]+)%.[^.]+$")
+    if not stem or stem == "" then return end
+
+    vim.system(
+        { "rg", "-F", "--files-with-matches", "[[" .. stem, "-g", "*." .. zet_ext, zet_abs },
+        { text = true },
+        vim.schedule_wrap(function(result)
+            if not result.stdout or result.stdout == "" then return end
+            local names = {}
+            for _, f in ipairs(vim.split(vim.trim(result.stdout), "\n")) do
+                if f ~= "" then
+                    local s = f:match("([^/]+)%.[^.]+$")
+                    if s then names[#names + 1] = s:gsub("_", " ") end
+                end
+            end
+            if #names == 0 then return end
+            if not vim.api.nvim_buf_is_valid(buf) then return end
+            local line_count = vim.api.nvim_buf_line_count(buf)
+            vim.api.nvim_buf_set_extmark(buf, backlink_ns, line_count - 1, 0, {
+                virt_lines = {
+                    { { "", "Comment" } },
+                    { { "## Back Links", "Comment" } },
+                    { { "← " .. table.concat(names, ", "), "Comment" } },
+                },
+            })
+        end)
+    )
+end
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = "*.md",
+    callback = function() update_backlinks(vim.api.nvim_get_current_buf()) end,
+})
+
+vim.api.nvim_create_autocmd("BufLeave", {
+    pattern = "*.md",
+    callback = function()
+        vim.api.nvim_buf_clear_namespace(vim.api.nvim_get_current_buf(), backlink_ns, 0, -1)
+    end,
+})
+
 -- VimWiki maps <BS> to its own nav stack, which only tracks Enter-followed links.
 -- Zettel commands open files via :e, bypassing that stack. Remap to <C-o> so the
 -- native jumplist (populated by all :e calls) handles back-navigation instead.
