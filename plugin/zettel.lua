@@ -185,6 +185,21 @@ vim.api.nvim_create_user_command("ZetSummary", function()
     vim.bo.modifiable = false
 end, {})
 
+-- Helpers shared by all file pickers
+local zet_dir_abs = vim.fn.expand(zet_dir)
+
+-- Entries are titles only ("deep work", "attention residue").
+-- The preview reconstructs the filename via shell substitution: {} → title → stem.md
+local zettel_list_cmd = "fd -e " .. zet_ext .. [[ | sed 's/.*\///;s/\.md//;s/_/ /g']]
+
+local zettel_fzf_opts = {
+    ['--preview'] = "bat --color=always --style=plain " .. zet_dir_abs .. "$(echo {} | tr ' ' '_').md",
+}
+
+local function open_zettel(entry)
+    vim.cmd("e " .. zet_dir .. entry:gsub(" ", "_") .. ".md")
+end
+
 -- :ZetOpenLoops — find zettels with non-empty ## Open Questions sections
 vim.api.nvim_create_user_command("ZetOpenLoops", function()
     local fzf_lua = require'fzf-lua'
@@ -200,8 +215,8 @@ vim.api.nvim_create_user_command("ZetOpenLoops", function()
                 if line:match("^## Open Questions") then
                     in_section = true
                 elseif in_section then
-                    if line:match("^##") then break end      -- next section, no content found
-                    if line:match("%S") then                  -- non-blank line = has content
+                    if line:match("^##") then break end
+                    if line:match("%S") then
                         matches[#matches + 1] = vim.fn.fnamemodify(path, ":t:r"):gsub("_", " ")
                         break
                     end
@@ -222,21 +237,6 @@ vim.api.nvim_create_user_command("ZetOpenLoops", function()
         actions  = { ['default'] = function(sel) open_zettel(sel[1]) end },
     })
 end, {})
-
--- Helpers shared by all file pickers
-local zet_dir_abs = vim.fn.expand(zet_dir)
-
--- Entries are titles only ("deep work", "attention residue").
--- The preview reconstructs the filename via shell substitution: {} → title → stem.md
-local zettel_list_cmd = "fd -e " .. zet_ext .. [[ | sed 's/.*\///;s/\.md//;s/_/ /g']]
-
-local zettel_fzf_opts = {
-    ['--preview'] = "bat --color=always --style=plain " .. zet_dir_abs .. "$(echo {} | tr ' ' '_').md",
-}
-
-local function open_zettel(entry)
-    vim.cmd("e " .. zet_dir .. entry:gsub(" ", "_") .. ".md")
-end
 
 -- FZF: search and open a zettel
 _G.fzf_zettel_search = function(options)
