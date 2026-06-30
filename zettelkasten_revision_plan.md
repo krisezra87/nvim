@@ -59,7 +59,7 @@
 ### Still to implement
 - [x] `:ZetSummary` — scratch buffer of zettels referencing current notes file, sorted by Date
 - [x] `:ZetOpenLoops` — Lua content check for non-empty `## Open Questions`; `## Open Questions` added to template; 13 existing zettels migrated to correct section order (Links → References → Open Questions)
-- [ ] `:RenameZettel` — rename file + ripgrep-replace all links across zettelkasten
+- [x] `:RenameZettel` — rename file + ripgrep-replace all links across zettelkasten
 
 ### Leave in wikinote.vim ✅
 - [x] `Note` / work notes commands kept; all zettel commands removed
@@ -177,7 +177,7 @@ Luhmann's physical IDs (1a2b3c) decoupled the address from the title — links u
 - FZF search modified to display H1 titles instead of filenames
 
 ### Implementation Tasks
-- [ ] Add `:RenameZettel` command to zettel.lua — rename file + update all links via ripgrep
+- [x] Add `:RenameZettel` command to zettel.lua — rename file + update all links via ripgrep
 - [ ] Decide: timestamp IDs for new zettels going forward, or descriptive filenames + rename tooling only
 - [ ] If timestamps: modify `fzf_zettel_search` to read H1 from each file for display
 

@@ -185,6 +185,64 @@ vim.api.nvim_create_user_command("ZetSummary", function()
     vim.bo.modifiable = false
 end, {})
 
+-- :RenameZettel — rename current zettel file + update all [[old_stem links across zettelkasten
+vim.api.nvim_create_user_command("RenameZettel", function()
+    local cur_path = vim.fn.expand("%:p")
+    local zet_abs  = vim.fn.expand(zet_dir)
+
+    if not cur_path:find(zet_abs, 1, true) then
+        vim.notify("RenameZettel must be run from a zettelkasten file", vim.log.levels.WARN)
+        return
+    end
+
+    local old_stem  = vim.fn.expand("%:t:r")
+    local old_title = old_stem:gsub("_", " ")
+    local new_input = vim.fn.input("Rename to: ", old_title)
+    vim.cmd("redraw")
+    if new_input == "" or new_input == old_title then return end
+
+    local new_stem  = new_input:gsub(" ", "_")
+    local new_path  = zet_abs .. new_stem .. "." .. zet_ext
+
+    if vim.fn.filereadable(new_path) == 1 then
+        vim.notify("Already exists: " .. new_stem .. ".md", vim.log.levels.ERROR)
+        return
+    end
+
+    -- Update H1 before rename so the corrected content is what gets moved
+    local first = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
+    if first == "# " .. old_title then
+        vim.api.nvim_buf_set_lines(0, 0, 1, false, { "# " .. new_input })
+    end
+    vim.cmd("silent! write")
+
+    if vim.fn.rename(cur_path, new_path) ~= 0 then
+        vim.notify("Rename failed", vim.log.levels.ERROR)
+        return
+    end
+
+    -- Replace all [[old_stem occurrences across zettelkasten
+    local sed_expr = "s/\\[\\[" .. old_stem .. "/[[" .. new_stem .. "/g"
+    local rg_cmd = "rg --files-with-matches " .. vim.fn.shellescape("\\[\\[" .. old_stem)
+                   .. " -g '*." .. zet_ext .. "' " .. vim.fn.shellescape(zet_abs)
+                   .. " | xargs -r sed -i " .. vim.fn.shellescape(sed_expr)
+    vim.fn.system(rg_cmd)
+
+    -- Also update display text when it exactly matches the old title (stem with spaces)
+    if old_title ~= new_input then
+        local sed_disp = "s/\\[\\[" .. new_stem .. "|" .. old_title .. "\\]\\]/[[" .. new_stem .. "|" .. new_input .. "]]/g"
+        local rg_disp = "rg --files-with-matches " .. vim.fn.shellescape("\\[\\[" .. new_stem .. "\\|" .. old_title)
+                        .. " -g '*." .. zet_ext .. "' " .. vim.fn.shellescape(zet_abs)
+                        .. " | xargs -r sed -i " .. vim.fn.shellescape(sed_disp)
+        vim.fn.system(rg_disp)
+    end
+
+    -- Point the current buffer at the new path (VimWiki autocmds may reload from disk,
+    -- which is fine — the file already has the updated H1)
+    vim.cmd("file " .. vim.fn.fnameescape(new_path))
+    vim.notify("Renamed: " .. old_stem .. " → " .. new_stem)
+end, {})
+
 -- Helpers shared by all file pickers
 local zet_dir_abs = vim.fn.expand(zet_dir)
 
@@ -304,6 +362,7 @@ local function notes_picker(prompt, on_select)
     table.sort(files)
     for _, path in ipairs(files) do
         local stub = vim.fn.fnamemodify(path, ":t:r")
+        if stub == "book_index" then goto continue end
         local f = io.open(path, "r")
         if f then
             local first_line = f:read("*l")
@@ -311,6 +370,7 @@ local function notes_picker(prompt, on_select)
             local title = (first_line and first_line:match("^# (.+)")) or stub:gsub("_", " ")
             entries[#entries + 1] = stub .. ": " .. title
         end
+        ::continue::
     end
     fzf_lua.fzf_exec(entries, {
         prompt    = prompt,
